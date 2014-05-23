@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome login </title>
+</head>
+<body>
+    {% if user_logged %}
+        user is logged
+    {% else %}
+    <p>Account Login </p>
+
+    {% if error %}
+        <li>
+             <p style="color: red;">
+                {{error}}
+             </p>
+        </li>
+    {% endif %}
+
+    <form action="/login/" method="post">
+        {% csrf_token %}
+        <input type = 'text' placeholder="Please input account" name="uid">
+       <br>
+
+        <input type = 'password' placeholder="Please input password" name="password">
+        <br>
+        <input type = 'submit' placeholder="Login" value="Login">
+        <br>
+        <a href="/register/">register new accout</a>
+    </form>
+    {% endif %}
+</body>
+</html>
