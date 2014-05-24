@@ -2,14 +2,44 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.models import User
+from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
+
+from mimi.models import Post, Message
+
+from datetime import datetime
+
+
+class PostForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea)
 
 def index(request):
     ctx = {}
     user_logged = True if request.user.is_authenticated() else False
+    post_form = PostForm()
+    posts = Post.objects.all().order_by("-post_date")
+    ctx.update(csrf(request))
+    ctx['post_form'] = post_form
     ctx['user_logged'] = user_logged
+    ctx['posts'] = posts
     return render(request, 'index.html', ctx)
+
+def apost(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated(): # no user is logged
+            return redirect('/')
+        else:  # logged in
+            post_form = PostForm(request.POST)
+            if post_form.is_valid():
+                submitted_content = request.POST['content']
+
+                Post(post_uid=request.user.username, post_content=submitted_content).save()
+                return redirect('/')
+            else:
+                return HttpResponse("post form is not valid")
+    else:   # request method is not POST
+        return redirect('/')
 
 def alogin(request):
     error = uid = password = None

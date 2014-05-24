@@ -5,5 +5,5 @@ urlpatterns = patterns('',
     url(r'^login/$', 'mimi.views.alogin'),
     url(r'^register/$', 'mimi.views.register'),
     url(r'^logout/$', 'mimi.views.alogout'),
+    url(r'^post/$', 'mimi.views.apost'),
 )
-
