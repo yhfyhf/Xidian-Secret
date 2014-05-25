@@ -13,7 +13,7 @@ class Post(models.Model):
     post_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.content
+        return self.post_content
 
 class Message(models.Model):
     post = models.ForeignKey(Post)

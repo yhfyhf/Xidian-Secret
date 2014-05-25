@@ -17,6 +17,8 @@ def index(request):
     user_logged = True if request.user.is_authenticated() else False
     post_form = PostForm()
     posts = Post.objects.all().order_by("-post_date")
+    for post in posts:
+        post.messages = post.message_set.all()
     ctx.update(csrf(request))
     ctx['post_form'] = post_form
     ctx['user_logged'] = user_logged
@@ -38,6 +40,7 @@ def apost(request):
                 return HttpResponse("post form is not valid")
     else:   # request method is not POST
         return redirect('/')
+
 
 def alogin(request):
     error = uid = password = None

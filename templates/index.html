@@ -6,11 +6,13 @@
 <body>
     <table>
     {% for post in posts %}
-        <tr>
-            <td>{{ post.post_uid }}</td>
-            <td>{{ post.post_content}}</td>
-            <td>{{ post.post_date }}</td>
-        </tr>
+            {{ post.post_uid }}<br/>
+            {{ post.post_content}}<br/>
+            {{ post.post_date }}<br/>
+            {% for message in post.messages %}
+                {{ message.message_content }}<br/>
+            {% endfor %}
+        <br/><br/><br/><br/>
     {% endfor %}
     </table>
     {% if user_logged %}
@@ -43,5 +45,7 @@
             <a href="/register/">register new accout</a>
         </form>
     {% endif %}
+
+
 </body>
 </html>
