@@ -8,8 +8,6 @@ from django.core.context_processors import csrf
 
 from mimi.models import Post, Message
 
-from datetime import datetime
-
 
 class PostForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea)
