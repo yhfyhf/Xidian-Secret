@@ -12,7 +12,15 @@
             {% for comment in post.comments %}
                 {{ comment.comment_content }} &nbsp;&nbsp;&nbsp;&nbsp;
                 {{ comment.comment_uid }}<br/>
-            {% endfor %}
+            {% endfor %}<br/>
+            {% if user_logged %}
+                <form action="/comment/{{ post.id }}/" method="post" accept-charset="UTF-8">
+                    {% csrf_token %}
+                    {{ comment_form.as_p }}
+                    <input type="submit" value="Comment"/>
+                </form>
+            {% endif %}
+
         <br/><br/><br/><br/>
     {% endfor %}
     </table>

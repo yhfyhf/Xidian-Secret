@@ -6,4 +6,5 @@ urlpatterns = patterns('',
     url(r'^register/$', 'mimi.views.register'),
     url(r'^logout/$', 'mimi.views.alogout'),
     url(r'^post/$', 'mimi.views.apost'),
+    url(r'^comment/(?P<post_id>\d+)/$', 'mimi.views.comment'),
 )

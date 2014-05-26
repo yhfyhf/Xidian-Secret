@@ -12,15 +12,20 @@ from mimi.models import Post, Comment
 class PostForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea)
 
+class CommentForm(forms.Form):
+    comment =  forms.CharField(widget=forms.Textarea)
+
 def index(request):
     ctx = {}
     user_logged = True if request.user.is_authenticated() else False
     post_form = PostForm()
+    comment_form = CommentForm()
     posts = Post.objects.all().order_by("-post_date")
     for post in posts:
         post.comments = post.comment_set.all()
     ctx.update(csrf(request))
     ctx['post_form'] = post_form
+    ctx['comment_form'] = comment_form
     ctx['user_logged'] = user_logged
     ctx['posts'] = posts
     return render(request, 'index.html', ctx)
@@ -33,7 +38,6 @@ def apost(request):
             post_form = PostForm(request.POST)
             if post_form.is_valid():
                 submitted_content = request.POST['content']
-
                 Post(post_uid=request.user.username, post_content=submitted_content).save()
                 return redirect('/')
             else:
@@ -41,6 +45,20 @@ def apost(request):
     else:   # request method is not POST
         return redirect('/')
 
+def comment(request, post_id):
+    if request.method == "POST":
+        if not request.user.is_authenticated():
+            return redirect('/')
+        else:
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                submitted_content = request.POST['comment']
+                Comment(post_id=post_id, comment_uid=request.user.username, comment_content=submitted_content).save()
+                return redirect('/')
+            else:
+                return HttpResponse("comment form is not valid")
+    else:
+        return redirect('/')
 
 def alogin(request):
     error = uid = password = None
