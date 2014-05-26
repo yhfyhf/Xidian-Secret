@@ -1,11 +1,11 @@
 from django.contrib import admin
-from mimi.models import Post, Message
+from mimi.models import Post, Comment
 
 # Register your models here.
-class MessageInline(admin.TabularInline):
-    model = Message
+class CommentInline(admin.TabularInline):
+    model = Comment
 
 class PostAdmin(admin.ModelAdmin):
-    inlines = [MessageInline]
+    inlines = [CommentInline]
 
 admin.site.register(Post, PostAdmin)

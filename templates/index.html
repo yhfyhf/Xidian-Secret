@@ -6,11 +6,12 @@
 <body>
     <table>
     {% for post in posts %}
-            {{ post.post_uid }}<br/>
+            {{ post.post_uid }} &nbsp;&nbsp;&nbsp;&nbsp;
             {{ post.post_content}}<br/>
             {{ post.post_date }}<br/>
-            {% for message in post.messages %}
-                {{ message.message_content }}<br/>
+            {% for comment in post.comments %}
+                {{ comment.comment_content }} &nbsp;&nbsp;&nbsp;&nbsp;
+                {{ comment.comment_uid }}<br/>
             {% endfor %}
         <br/><br/><br/><br/>
     {% endfor %}

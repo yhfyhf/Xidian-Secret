@@ -6,7 +6,7 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
 
-from mimi.models import Post, Message
+from mimi.models import Post, Comment
 
 
 class PostForm(forms.Form):
@@ -18,7 +18,7 @@ def index(request):
     post_form = PostForm()
     posts = Post.objects.all().order_by("-post_date")
     for post in posts:
-        post.messages = post.message_set.all()
+        post.comments = post.comment_set.all()
     ctx.update(csrf(request))
     ctx['post_form'] = post_form
     ctx['user_logged'] = user_logged
