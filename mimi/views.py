@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
@@ -14,6 +15,17 @@ class PostForm(forms.Form):
 
 class CommentForm(forms.Form):
     comment =  forms.CharField(widget=forms.Textarea)
+
+def verify(request):
+    """ verify the request method is "POST" and a user is logged """
+    if request.method == "POST":
+        if not request.user.is_authenticated():  # no user is logged
+            return 0
+        else:
+            return 1
+    else:  # request method is not POST
+        return 0
+
 
 def index(request):
     ctx = {}
@@ -31,34 +43,34 @@ def index(request):
     return render(request, 'index.html', ctx)
 
 def apost(request):
-    if request.method == "POST":
-        if not request.user.is_authenticated(): # no user is logged
-            return redirect('/')
-        else:  # logged in
-            post_form = PostForm(request.POST)
-            if post_form.is_valid():
-                submitted_content = request.POST['content']
-                Post(post_uid=request.user.username, post_content=submitted_content).save()
-                return redirect('/')
-            else:
-                return HttpResponse("post form is not valid")
-    else:   # request method is not POST
+    if not verify(request):
         return redirect('/')
+    post_form = PostForm(request.POST)
+    if post_form.is_valid():
+        submitted_content = request.POST['content']
+        Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0).save()
+        return redirect('/')
+    else:
+        return HttpResponse("post form is not valid")
 
 def comment(request, post_id):
-    if request.method == "POST":
-        if not request.user.is_authenticated():
-            return redirect('/')
-        else:
-            comment_form = CommentForm(request.POST)
-            if comment_form.is_valid():
-                submitted_content = request.POST['comment']
-                Comment(post_id=post_id, comment_uid=request.user.username, comment_content=submitted_content).save()
-                return redirect('/')
-            else:
-                return HttpResponse("comment form is not valid")
-    else:
+    if not verify(request):
         return redirect('/')
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        submitted_content = request.POST['comment']
+        Comment(post_id=post_id, comment_uid=request.user.username,
+                comment_content=submitted_content, comment_like_num=0).save()
+        return redirect('/')
+    else:
+        return HttpResponse("comment form is not valid")
+
+def post_like(request, post_id):
+    posts = Post.objects.filter(id=int(post_id))
+    for post in posts:
+        post.post_like_num += 1
+        post.save()
+    return HttpResponse("OK")
 
 def alogin(request):
     error = uid = password = None

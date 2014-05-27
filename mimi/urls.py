@@ -7,4 +7,5 @@ urlpatterns = patterns('',
     url(r'^logout/$', 'mimi.views.alogout'),
     url(r'^post/$', 'mimi.views.apost'),
     url(r'^comment/(?P<post_id>\d+)/$', 'mimi.views.comment'),
+    url(r'^post_like/(?P<post_id>\d+)/$', 'mimi.views.post_like'),
 )

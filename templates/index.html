@@ -2,16 +2,39 @@
 <html>
 <head>
     <title>Xidian Secret</title>
+    <script>
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+            xmlhttp = new XMLHttpRequest();
+        else
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    </script>
+    <script>
+        function post_like(post_id) {
+            var like_num_node = document.getElementById("post_like_num"+post_id);
+            var like_num = like_num_node.innerText;
+            like_num = parseInt(like_num);
+            like_num++;
+            like_num_node.innerText = like_num;
+            var post_like_node = document.getElementById("post_like"+post_id);
+            post_like_node.innerHTML = "已赞";
+            var url = "/post_like/" + post_id;
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
+    </script>
 </head>
 <body>
     <table>
     {% for post in posts %}
             {{ post.post_uid }} &nbsp;&nbsp;&nbsp;&nbsp;
-            {{ post.post_content}}<br/>
-            {{ post.post_date }}<br/>
+            {{ post.post_content}} &nbsp;&nbsp;&nbsp;&nbsp;
+            <label id="post_like{{ post.id }}"><label onclick="post_like({{ post.id }})">赞</label></label><br/>
+            {{ post.post_date }} &nbsp;&nbsp;&nbsp;&nbsp; LIKE:
+            <label id="post_like_num{{ post.id }}">{{ post.post_like_num }}</label><br/>
             {% for comment in post.comments %}
                 {{ comment.comment_content }} &nbsp;&nbsp;&nbsp;&nbsp;
-                {{ comment.comment_uid }}<br/>
+                {{ comment.comment_uid }} &nbsp;&nbsp;&nbsp;&nbsp;LIKE: {{ comment.comment_like_num }} <br/>
             {% endfor %}<br/>
             {% if user_logged %}
                 <form action="/comment/{{ post.id }}/" method="post" accept-charset="UTF-8">
@@ -20,8 +43,7 @@
                     <input type="submit" value="Comment"/>
                 </form>
             {% endif %}
-
-        <br/><br/><br/><br/>
+        <br/><br/><br/>
     {% endfor %}
     </table>
     {% if user_logged %}
