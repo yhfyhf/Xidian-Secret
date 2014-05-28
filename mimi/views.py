@@ -7,7 +7,7 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
 
-from mimi.models import Post, Comment
+from mimi.models import Post, Comment, Notice
 
 
 class PostForm(forms.Form):
@@ -29,18 +29,48 @@ def verify(request):
 
 def index(request):
     ctx = {}
-    user_logged = True if request.user.is_authenticated() else False
     post_form = PostForm()
     comment_form = CommentForm()
     posts = Post.objects.all().order_by("-post_date")
     for post in posts:
         post.comments = post.comment_set.all()
+    if request.user.is_authenticated():
+        notices = Notice.objects.filter(user_id=request.user.id, is_read=False)
+    else:
+        notices = None
+    notice_num = len(notices) if notices else 0
     ctx.update(csrf(request))
     ctx['post_form'] = post_form
     ctx['comment_form'] = comment_form
-    ctx['user_logged'] = user_logged
+    ctx['user'] = request.user
     ctx['posts'] = posts
+    ctx['notices'] = notices
+    ctx['notice_num'] = notice_num
     return render(request, 'index.html', ctx)
+
+def notice(request, notice_id):
+    if request.method == "GET":
+        if request.user.is_authenticated():
+            try:
+                notice = Notice.objects.get(id=notice_id)
+                if request.user.id == notice.user_id:
+                    ctx = {}
+                    notice.is_read = True
+                    notice.save()
+                    post = Post.objects.get(id=notice.post_id)
+                    comments = post.comment_set.all()
+                    ctx.update(csrf(request))
+                    ctx['post'] = post
+                    ctx['comments'] = comments
+                    return render(request, 'notice.html', ctx)
+                else:  # others are checking the notice
+                    return redirect('/')
+            except:
+                return redirect('/')
+        else:   # no user is logged
+            return redirect('')
+    else:  # request method is not "GET"
+        return redirect('/')
 
 def apost(request):
     if not verify(request):
@@ -61,6 +91,13 @@ def comment(request, post_id):
         submitted_content = request.POST['comment']
         Comment(post_id=post_id, comment_uid=request.user.username,
                 comment_content=submitted_content, comment_like_num=0).save()
+        # set all users who have followed this comment to unread
+        Notice.objects.filter(post_id=post_id).exclude(user_id=request.user.id).update(is_read=False)
+        # let user follow the post if hasn't followed
+        try:
+            Notice.objects.get(post_id=post_id, user_id=request.user.id)
+        except:
+            Notice(post_id=post_id, user_id=request.user.id).save()
         return redirect('/')
     else:
         return HttpResponse("comment form is not valid")

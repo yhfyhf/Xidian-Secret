@@ -22,3 +22,7 @@ class Comment(models.Model):
     comment_date = models.DateTimeField(auto_now_add=True)
     comment_like_num = models.IntegerField()
 
+class Notice(models.Model):
+    post_id = models.PositiveIntegerField()
+    user_id = models.PositiveIntegerField()
+    is_read = models.BooleanField(default=True)

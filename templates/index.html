@@ -25,6 +25,19 @@
     </script>
 </head>
 <body>
+    {% if user.is_authenticated %}
+        您好！{{ user.username }}
+        <div>
+            您有{{ notice_num }}条新消息。 <br/>
+            <ul>
+                {% for notice in notices %}
+                    <li><a href="/notice/{{ notice.id }}/">{{ notice.id }}</a></li>
+                {% endfor %}
+            </ul>
+            <br/><br/><br/>
+        </div>
+    {% endif %}
+
     <table>
     {% for post in posts %}
             {{ post.post_uid }} &nbsp;&nbsp;&nbsp;&nbsp;
@@ -36,7 +49,7 @@
                 {{ comment.comment_content }} &nbsp;&nbsp;&nbsp;&nbsp;
                 {{ comment.comment_uid }} &nbsp;&nbsp;&nbsp;&nbsp;LIKE: {{ comment.comment_like_num }} <br/>
             {% endfor %}<br/>
-            {% if user_logged %}
+            {% if user.is_authenticated %}
                 <form action="/comment/{{ post.id }}/" method="post" accept-charset="UTF-8">
                     {% csrf_token %}
                     {{ comment_form.as_p }}
@@ -46,7 +59,7 @@
         <br/><br/><br/>
     {% endfor %}
     </table>
-    {% if user_logged %}
+    {% if user.is_authenticated %}
         <form action="/post/" method="post" accept-charset="utf-8">
             {% csrf_token %}
             {{ post_form.as_p }}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    {% if user.is_authenticated %}
+        {{ post.post_content }} <br/><br/>
+        {% for comment in comments %}
+            {{ comment.comment_content }} &nbsp;&nbsp;&nbsp;&nbsp; {{ comment.comment_uid }}<br/>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

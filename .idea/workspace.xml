@@ -28,18 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mimi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="32" selection-start="2302" selection-end="2302" vertical-scroll-proportion="0.0" vertical-offset="233" max-vertical-offset="825">
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#945#1416#0" expanded="false" />
-                <element signature="e#1442#1808#0" expanded="false" />
-                <element signature="e#1845#2268#0" expanded="false" />
-                <element signature="e#2483#3502#0" expanded="false" />
-                <element signature="e#3531#4707#0" expanded="false" />
-              </folding>
+            <state line="72" column="28" selection-start="2561" selection-end="2561" vertical-scroll-proportion="0.63604856" vertical-offset="578" max-vertical-offset="2670">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -47,16 +40,25 @@
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mimi/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="17" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
+            <state line="26" column="42" selection-start="756" selection-end="756" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="44" selection-start="688" selection-end="688" vertical-scroll-proportion="0.44444445" vertical-offset="45" max-vertical-offset="1305">
+            <state line="45" column="57" selection-start="1523" selection-end="1547" vertical-scroll-proportion="-10.625" vertical-offset="420" max-vertical-offset="1500">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="notice.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/notice.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="90" selection-start="271" selection-end="271" vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="285">
               <folding />
             </state>
           </provider>
@@ -65,16 +67,7 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mimi/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="20" selection-start="376" selection-end="393" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xdmm/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="730" selection-end="730" vertical-scroll-proportion="0.0" vertical-offset="345" max-vertical-offset="1530">
+            <state line="10" column="13" selection-start="436" selection-end="436" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
               <folding />
             </state>
           </provider>
@@ -93,15 +86,6 @@
         <entry file="file://$PROJECT_DIR$/xdmm/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="4" column="0" selection-start="107" selection-end="107" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="225">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="admin.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mimi/admin.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="36" selection-start="266" selection-end="266" vertical-scroll-proportion="0.0" vertical-offset="150" max-vertical-offset="240">
               <folding />
             </state>
           </provider>
@@ -133,9 +117,10 @@
         <option value="$PROJECT_DIR$/xdmm/urls.py" />
         <option value="$PROJECT_DIR$/xdmm/settings.py" />
         <option value="$PROJECT_DIR$/mimi/models.py" />
-        <option value="$PROJECT_DIR$/mimi/views.py" />
-        <option value="$PROJECT_DIR$/mimi/urls.py" />
         <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/mimi/urls.py" />
+        <option value="$PROJECT_DIR$/templates/notice.html" />
+        <option value="$PROJECT_DIR$/mimi/views.py" />
       </list>
     </option>
   </component>
@@ -171,7 +156,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -238,6 +222,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -526,11 +511,6 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/templates/register.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="80" selection-start="1207" selection-end="1207" vertical-scroll-proportion="0.0" vertical-offset="427" max-vertical-offset="885" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/register.html">
-      <provider selected="true" editor-type-id="text-editor">
         <state line="30" column="17" selection-start="705" selection-end="705" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="885" />
       </provider>
     </entry>
@@ -544,14 +524,7 @@
     <entry file="file://$PROJECT_DIR$/mimi/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="285">
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#945#1416#0" expanded="false" />
-            <element signature="e#1442#1808#0" expanded="false" />
-            <element signature="e#1845#2268#0" expanded="false" />
-            <element signature="e#2483#3502#0" expanded="false" />
-            <element signature="e#3531#4707#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -598,34 +571,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mimi/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="17" selection-start="295" selection-end="295" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="420">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mimi/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="32" selection-start="2302" selection-end="2302" vertical-scroll-proportion="0.0" vertical-offset="233" max-vertical-offset="825">
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#945#1416#0" expanded="false" />
-            <element signature="e#1442#1808#0" expanded="false" />
-            <element signature="e#1845#2268#0" expanded="false" />
-            <element signature="e#2483#3502#0" expanded="false" />
-            <element signature="e#3531#4707#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mimi/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="20" selection-start="376" selection-end="393" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/xdmm/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="0" selection-start="730" selection-end="730" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1530">
@@ -633,9 +578,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mimi/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="13" selection-start="436" selection-end="436" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="44" selection-start="688" selection-end="688" vertical-scroll-proportion="0.44444445" vertical-offset="45" max-vertical-offset="1305">
+        <state line="45" column="57" selection-start="1523" selection-end="1547" vertical-scroll-proportion="-10.625" vertical-offset="420" max-vertical-offset="1500">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mimi/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="42" selection-start="756" selection-end="756" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="480">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/notice.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="90" selection-start="271" selection-end="271" vertical-scroll-proportion="-5.625" vertical-offset="0" max-vertical-offset="285">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mimi/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="28" selection-start="2561" selection-end="2561" vertical-scroll-proportion="0.63604856" vertical-offset="578" max-vertical-offset="2670">
           <folding />
         </state>
       </provider>
