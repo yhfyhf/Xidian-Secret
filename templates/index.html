@@ -1,64 +1,98 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Xidian Secret</title>
-    <script>
-        var xmlhttp;
-        if (window.XMLHttpRequest)
-            xmlhttp = new XMLHttpRequest();
-        else
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    </script>
-    <script>
-        function post_like(post_id) {
-            var like_num_node = document.getElementById("post_like_num"+post_id);
-            var like_num = like_num_node.innerText;
-            like_num = parseInt(like_num);
-            like_num++;
-            like_num_node.innerText = like_num;
-            var post_like_node = document.getElementById("post_like"+post_id);
-            post_like_node.innerHTML = "已赞";
-            var url = "/post_like/" + post_id;
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
-        }
-    </script>
-</head>
-<body>
-    {% if user.is_authenticated %}
-        您好！{{ user.username }}
-        <div>
-            您有{{ notice_num }}条新消息。 <br/>
-            <ul>
+{% extends "base.html" %}
+<!-- head -->
+    {% block cssfiles %}
+        <link rel="stylesheet" href="static/css/main.css">
+    {% endblock %}
+    {% block jsfiles%}
+    <script src="static/js/ajax.js"></script>
+    {% endblock %}
+<!-- /head -->
+
+<!-- body -->
+{% block notice %}
+    <div class="nav navbar-nav navbar-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+                新消息 {{ notice_num }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
                 {% for notice in notices %}
                     <li><a href="/notice/{{ notice.id }}/">{{ notice.id }}</a></li>
                 {% endfor %}
             </ul>
-            <br/><br/><br/>
         </div>
-    {% endif %}
+    </div>
+{% endblock %}
 
-    <table>
-    {% for post in posts %}
-            {{ post.post_uid }} &nbsp;&nbsp;&nbsp;&nbsp;
-            {{ post.post_content}} &nbsp;&nbsp;&nbsp;&nbsp;
-            <label id="post_like{{ post.id }}"><label onclick="post_like({{ post.id }})">赞</label></label><br/>
-            {{ post.post_date }} &nbsp;&nbsp;&nbsp;&nbsp; LIKE:
-            <label id="post_like_num{{ post.id }}">{{ post.post_like_num }}</label><br/>
-            {% for comment in post.comments %}
-                {{ comment.comment_content }} &nbsp;&nbsp;&nbsp;&nbsp;
-                {{ comment.comment_uid }} &nbsp;&nbsp;&nbsp;&nbsp;LIKE: {{ comment.comment_like_num }} <br/>
-            {% endfor %}<br/>
-            {% if user.is_authenticated %}
-                <form action="/comment/{{ post.id }}/" method="post" accept-charset="UTF-8">
-                    {% csrf_token %}
-                    {{ comment_form.as_p }}
-                    <input type="submit" value="Comment"/>
-                </form>
-            {% endif %}
-        <br/><br/><br/>
-    {% endfor %}
-    </table>
+{% block mainbody %}
+    <div class="container" id="container">
+        <div class="masonry">
+        {% for post in posts %}
+            <div class="item col-lg-4 col-md-4 col-sm-4" id="post{{ post.id }}" >
+                <div class="post">
+                    <div class="apost">
+                        <label class="post_uid">{{ post.post_uid }}</label>
+                        <button type="button" onclick="post_like({{ post.id }})" class="btn-like btn btn-default">
+                            <label id="post_like{{ post.id }}">
+                                <span class="glyphicon glyphicon-heart-empty"></span>
+                            </label> 
+                            <label id="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
+                        </button>
+                        <div class="post_content">
+                            {{ post.post_content }}
+                        </div>
+                        <button class="btn btn-default btn-sm btn-comment" data-toggle="modal" data-target="#showpost{{ post.id }}">评论 <span>{{ post.comments_num }}</span></button>
+                        <div class="stats">
+                            <span class="pub-time">{{ post.post_date }}</span>
+                        </div>
+
+
+                        <div class="modal fade" id="showpost{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <span class="modal-title" id="myModalLabel">{{ post.post_uid }}</span>
+                                <button type="button" onclick="post_like({{ post.id }})" class="btn-like btn btn-default">
+                                    <label id="post_like{{ post.id }}in">
+                                        <span class="glyphicon glyphicon-heart-empty"></span>
+                                    </label> 
+                                    <label id="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <span class="post_content">{{ post.post_content }}</span>
+                                <hr><hr>
+                                {% for comment in post.comments %}
+                                    <span class="comment_content">{{ comment.comment_content }}</span><br>
+                                    <span class="pub-time">{{ comment.comment_date }}</span> <hr>
+                                {% endfor %}
+                              </div>
+                              <div class="modal-footer">
+                                {% if user.is_authenticated %}
+                                    <form action="/comment/{{ post.id }}/" method="post" accept-charset="UTF-8">
+                                        {% csrf_token %}
+                                        <textarea class="form-control" rows="2" name="comment"></textarea>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-primary" value="Comment"/>
+                                    </form>
+                                {% else %}
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                {% endif %}
+                              </div>
+                            </div><!-- /.modal-content -->
+                          </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div> <!-- mansory -->
+    </div> <!-- container -->
+
     {% if user.is_authenticated %}
         <form action="/post/" method="post" accept-charset="utf-8">
             {% csrf_token %}
@@ -90,6 +124,37 @@
         </form>
     {% endif %}
 
+    <div class="pagination">
+        <span class="previous_page">
+            {% if posts.has_previous %}
+                <button class="btn btn-default btn-page"><a href="?page={{ posts.previous_page_number }}">←上一页</a></button>
+            {% else %}
+                <button class="btn btn-default btn-page" disabled="disabled"><a href="">←上一页</a></button>
+            {% endif %}  
+        </span>
+        <span class="current_page">
+                第 {{ posts.number }} 页， 共 {{ posts.paginator.num_pages }} 页
+        </span>
+        <span class="next_page">
+            {% if posts.has_next %}
+                <button class="btn btn-default btn-page"><a href="?page={{ posts.next_page_number }}">下一页→</a></button>
+            {% else %}
+                <button class="btn btn-default btn-page" disabled="disabled"><a href="">下一页→</a></button>
+            {% endif %} 
+        </span>
+    </div>
 
-</body>
-</html>
+<!-- <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script> -->
+<!-- <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>   -->
+<script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
+<script type="text/javascript" src="static/js/main.js"></script>
+
+
+{% endblock %}
+
+
+
+
+<!-- /body -->
+
+

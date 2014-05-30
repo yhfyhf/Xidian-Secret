@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.core.context_processors import csrf
+from django.core import serializers
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from mimi.models import Post, Comment, Notice
 
@@ -33,12 +35,23 @@ def index(request):
     comment_form = CommentForm()
     posts = Post.objects.all().order_by("-post_date")
     for post in posts:
-        post.comments = post.comment_set.all()
+        comments = post.comment_set.all()
+        post.comments = comments
+        post.comments_num = len(comments)
     if request.user.is_authenticated():
         notices = Notice.objects.filter(user_id=request.user.id, is_read=False)
     else:
         notices = None
     notice_num = len(notices) if notices else 0
+    # paginator
+    paginator = Paginator(posts, 30) # show 30 posts per page
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
     ctx.update(csrf(request))
     ctx['post_form'] = post_form
     ctx['comment_form'] = comment_form
@@ -72,16 +85,31 @@ def notice(request, notice_id):
     else:  # request method is not "GET"
         return redirect('/')
 
+
+def show_post(request, post_id):
+    if request.method == "GET":
+        response = HttpResponse()
+        response['Content-Type'] = "text/javascript"
+        post = serializers.serialize("json", Post.objects.filter(id=post_id),
+                                     fields=('post_date','post_content', 'post_like_num'))
+        response.write(post)
+        return response
+    else:
+        return redirect('/')
+
 def apost(request):
     if not verify(request):
         return redirect('/')
-    post_form = PostForm(request.POST)
-    if post_form.is_valid():
-        submitted_content = request.POST['content']
-        Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0).save()
-        return redirect('/')
+    if request.user.is_authenticated():
+        post_form = PostForm(request.POST)
+        if post_form.is_valid():
+            submitted_content = request.POST['content']
+            Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0).save()
+            return redirect('/')
+        else:
+            return HttpResponse("post form is not valid")
     else:
-        return HttpResponse("post form is not valid")
+        return redirect('/')
 
 def comment(request, post_id):
     if not verify(request):
