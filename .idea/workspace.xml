@@ -31,7 +31,7 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mimi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="66" column="0" selection-start="2235" selection-end="2235" vertical-scroll-proportion="-1.9801325" vertical-offset="2485" max-vertical-offset="3240">
+            <state line="125" column="43" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.8410596" vertical-offset="1240" max-vertical-offset="3180">
               <folding>
                 <element signature="e#26#61#0" expanded="true" />
               </folding>
@@ -619,7 +619,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mimi/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="66" column="0" selection-start="2235" selection-end="2235" vertical-scroll-proportion="-1.9801325" vertical-offset="2485" max-vertical-offset="3240">
+        <state line="125" column="43" selection-start="4538" selection-end="4538" vertical-scroll-proportion="0.8410596" vertical-offset="1240" max-vertical-offset="3180">
           <folding>
             <element signature="e#26#61#0" expanded="true" />
           </folding>

@@ -81,10 +81,12 @@
                                 {% endfor %}
                               </div>
                               <div class="modal-footer">
+
                                 {% if user.is_authenticated %}
                                     <form action="/comment/{{ post.id }}/" method="post" accept-charset="UTF-8">
                                         {% csrf_token %}
                                         <textarea class="form-control" rows="2" name="comment"></textarea>
+                                        <br>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         <input type="submit" class="btn btn-primary" value="Comment"/>
                                     </form>

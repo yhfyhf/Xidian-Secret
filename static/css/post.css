@@ -14,7 +14,7 @@ div.comments {
 }
 
 .others span {
-	margin-left: 8%;
+	margin-left: 68%;
 }
 
 .others {
@@ -22,7 +22,6 @@ div.comments {
 }
 
 .comment_date {
-	/*margin-left: 100%;*/
 	float: right;
 	font-size: 10px;
 }
@@ -30,5 +29,9 @@ div.comments {
 @media screen and (max-width:480px) {
 	div.comments {
 		width: 100%;
+	}
+
+	.others span {
+		margin-left: 42%;
 	}
 }

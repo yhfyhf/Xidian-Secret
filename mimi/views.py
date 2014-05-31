@@ -102,13 +102,9 @@ def apost(request):
     if not verify(request):
         return redirect('/')
     if request.user.is_authenticated():
-        post_form = PostForm(request.POST)
-        if post_form.is_valid():
-            submitted_content = request.POST['content']
-            Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0).save()
-            return redirect('/')
-        else:
-            return HttpResponse("post form is not valid")
+        submitted_content = request.POST['content']
+        Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0).save()
+        return redirect('/')
     else:
         return redirect('/')
 
@@ -127,7 +123,7 @@ def comment(request, post_id):
             Notice.objects.get(post_id=post_id, user_id=request.user.id)
         except:
             Notice(post_id=post_id, user_id=request.user.id).save()
-        return redirect('/')
+        return redirect('/post/'+post_id+'/')
     else:
         return HttpResponse("comment form is not valid")
 
