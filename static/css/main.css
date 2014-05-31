@@ -1,6 +1,5 @@
 body {
     background-color: #eee;
-    background:url(/static/image/bg.png);
 }
 
 #container {
@@ -142,7 +141,7 @@ a.post_content {
     position: relative;
 }
 
-.brick-actions {
+/*.brick-actions {
     position: absolute;
     z-index: 990;
     top: 10px;
@@ -179,7 +178,7 @@ a.post_content {
 
 .dropdown-menu {
     min-width: 0px;
-} 
+} */
 
 
 .navbar {border-radius: 0px !important;}
@@ -190,7 +189,6 @@ a.post_content {
 .btn-like {
     height: 40px;
     width: 80px;
-    /*border: 1px solid;*/
     border-color: white;
     background: white;
     font-size: 20px;
@@ -258,8 +256,12 @@ form.post_form {
     background: black;
 }
 
-.btn-notice:hover, .btn-notice:visited {
+.btn-notice:hover, .btn-notice:active {
     color: white;
+}
+
+.input-sm {
+    margin-left: 10px;
 }
 
 @media screen and (max-width:1199px) {

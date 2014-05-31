@@ -21,13 +21,33 @@ div.comments {
 	margin-bottom: 60px;
 }
 
+.floor_count {
+	width: 30px;
+}
+
+.comment_uid {
+	width: 60px;
+	float: right;
+}
+
+.comment_content {
+	text-align: left;
+}
+
 .comment_date {
 	float: right;
 	font-size: 10px;
+	width: 60px;
 }
 
 .table-hover {
 	cursor: pointer;
+	outline: gray dotted thin;
+	background-color: white;
+}
+
+form {
+	text-align: right;
 }
 
 @media screen and (max-width:480px) {

@@ -10,5 +10,5 @@ urlpatterns = patterns('',
     url(r'^post/(?P<post_id>\d+)/$', 'mimi.views.show_post'),
     url(r'^comment/(?P<post_id>\d+)/$', 'mimi.views.comment'),
     url(r'^post_like/(?P<post_id>\d+)/$', 'mimi.views.post_like'),
-    #url(r'^notice/(?P<notice_id>\d+)/$', 'mimi.views.notice'),
+    url(r'^search/$','mimi.views.Search'),
 )

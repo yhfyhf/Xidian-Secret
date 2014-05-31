@@ -27,9 +27,6 @@
 	    <nav class="collapse navbar-collapse bs-navbar-collapse">
 	      	<ul class="nav navbar-nav">
 	        	<li>
-	          		<a href="/">主页</a>
-	        	</li>
-	        	<li>
 	          		<a href="#">关于</a>
 	        	</li>
 	        	<li>
@@ -38,12 +35,21 @@
 	       		<li>
 	          		<a href="#">联系</a>
 	        	</li>
+	        	<li>
+	        		{% block search %}
+	       			{% endblock %}
+	        	</li>
+	        	<li>
+	        		{% block login %}
+	       			{% endblock %}
+	        	</li>
 	      	</ul>
-	       	
-	       	{% block notice %}
-	       	{% endblock %}
 
-	       	{% block search %}
+
+	       	
+
+
+	       	{% block notice %}
 	       	{% endblock %}
 	       	
 	    </nav>

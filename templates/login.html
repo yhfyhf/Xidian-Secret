@@ -30,7 +30,7 @@
 {% block mainbody %}
 <br><br><br>
     <table>
-        <form action="/register/" method="post" role="form">
+        <form action="/login/" method="post" role="form">
             {% csrf_token %}
             <tr>
                 <td></td>
@@ -45,7 +45,7 @@
                     <label><strong>学号:</strong></label>
                 </td>
                 <td>
-                    <input type='text' name='uid' required class="form-control"/>
+                    <input type='text' placeholder="请输入学号" required class="form-control" name="uid">
                 </td>
             </tr>
             <tr>
@@ -53,21 +53,13 @@
                     <label><strong>密码:</strong></label>
                 </td>
                 <td>
-                  <input type='password' name='password' required class="form-control" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label><strong>再次输入密码:</strong></label>
-                </td>
-                <td>
-                    <input type='password' name ='password2' required class="form-control" />
+                  <input type='password' placeholder="请输入密码" required class="form-control" name="password">
                 </td>
             </tr>
             <tr>
                 <td></td>
                 <td class="submit">
-                    <input type='submit' value="注册" class="btn btn-default" />
+                    <input type='submit' value="登录" class="btn btn-default">
                 </td>
             </tr>
         </form>

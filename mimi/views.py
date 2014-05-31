@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django import forms
 from django.contrib.auth import authenticate, login, logout
@@ -16,11 +17,11 @@ from mimi.models import Post, Comment, Notice
 from get_grade import get_grade
 
 
-class PostForm(forms.Form):
-    content = forms.CharField(widget=forms.Textarea)
-
-class CommentForm(forms.Form):
-    comment =  forms.CharField(widget=forms.Textarea)
+#class PostForm(forms.Form):
+#    content = forms.CharField(widget=forms.Textarea)
+#
+#class CommentForm(forms.Form):
+#    comment =  forms.CharField(widget=forms.Textarea)
 
 def verify(request):
     """ verify the request method is "POST" and a user is logged """
@@ -35,8 +36,6 @@ def verify(request):
 
 def index(request):
     ctx = {}
-    post_form = PostForm()
-    comment_form = CommentForm()
     posts = Post.objects.all().order_by("-post_date")
     for post in posts:
         comments = post.comment_set.all()
@@ -58,9 +57,10 @@ def index(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
+    for post in posts:
+        for comment in post.comment_set.all():
+            comment.comment_uid = get_grade(comment.comment_uid)
     ctx.update(csrf(request))
-    ctx['post_form'] = post_form
-    ctx['comment_form'] = comment_form
     ctx['user'] = request.user
     ctx['posts'] = posts
     ctx['notices'] = notices
@@ -80,6 +80,8 @@ def show_post(request, post_id):
             except:
                 pass
         comments = post.comment_set.all()
+        for comment in comments:
+            comment.comment_uid = get_grade(comment.comment_uid)
         ctx = {}
         ctx.update(csrf(request))
         ctx['post'] = post
@@ -87,7 +89,7 @@ def show_post(request, post_id):
         ctx['comments_num'] = len(comments)
         return render(request, 'post.html', ctx)
     else:
-        return redirect('/')
+        raise Http404()
 
 def show_post_json(request, post_id):
     if request.method == "GET":
@@ -113,21 +115,17 @@ def apost(request):   #  just POST
 def comment(request, post_id): # just POST
     if not verify(request):
         return redirect('/')
-    comment_form = CommentForm(request.POST)
-    if comment_form.is_valid():
-        submitted_content = request.POST['comment']
-        Comment(post_id=post_id, comment_uid=request.user.username,
-                comment_content=submitted_content, comment_like_num=0).save()
-        # set all users who have followed this comment to unread
-        Notice.objects.filter(post_id=post_id).exclude(user_id=request.user.id).update(is_read=False)
-        # let user follow the post if hasn't followed
-        try:
-            Notice.objects.get(post_id=post_id, user_id=request.user.id)
-        except:
-            Notice(post_id=post_id, user_id=request.user.id).save()
-        return redirect('/post/'+post_id+'/')
-    else:
-        return HttpResponse("comment form is not valid")
+    submitted_content = request.POST['comment']
+    Comment(post_id=post_id, comment_uid=request.user.username,
+            comment_content=submitted_content, comment_like_num=0).save()
+    # set all users who have followed this comment to unread
+    Notice.objects.filter(post_id=post_id).exclude(user_id=request.user.id).update(is_read=False)
+    # let user follow the post if hasn't followed
+    try:
+        Notice.objects.get(post_id=post_id, user_id=request.user.id)
+    except:
+        Notice(post_id=post_id, user_id=request.user.id).save()
+    return redirect('/post/'+post_id+'/')
 
 def post_like(request, post_id):
     posts = Post.objects.filter(id=int(post_id))
@@ -139,31 +137,34 @@ def post_like(request, post_id):
 def alogin(request):
     error = uid = password = None
     ctx = {}
-
+    if request.user.is_authenticated():
+        logout(request)
+    if request.method == "GET":
+        return render(request, 'login.html')
     if request.method == 'POST' :
-        if not request.POST.get('uid'):
-            error = 'Please Enter uid'
+        if not request.POST['uid']:
+            error = '请输入学号!'
         else:
-            uid = request.POST.get('uid')
-        if not request.POST.get('password'):
-            error = 'Please Enter password'
+            uid = request.POST['uid']
+        if not request.POST['password']:
+            error = '请输入密码!'
         else:
-            password= request.POST.get('password')
+            password= request.POST['password']
         user = authenticate(username=uid, password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
             else:
-                error = "user not active"
+                error = "您的用户已被锁定!"
         else:
-            error = "error in uid or password"
-        ctx['error'] = error
-        ctx['user'] = request.user.is_authenticated()
-        ctx.update(csrf(request))
-        if ctx['user']:  # login succesfully, redirect to '/'
+            error = "您输入的账号或密码有误!"
+            ctx.update(csrf(request))
+            ctx['error'] = error
+            return render(request, 'login.html', ctx)
+        if user.is_authenticated():  # login succesfully, redirect to '/'
             return redirect('/')
         else:            # error in login
-            return render(request, 'index.html', ctx)
+            return render(request, 'login.html', ctx)
     else:    # request method is not POST
         raise Http404()
 
@@ -172,6 +173,9 @@ def register(request):
     uid = password = password2 = None
     compareFlag = False
     ctx = {}
+
+    if request.user.is_authenticated():
+        logout(request)
 
     if request.method == 'POST':
         ctx = {}
@@ -192,14 +196,13 @@ def register(request):
                 error = "密码长度必须在6位和20位之间!"
         if not request.POST.get('uid'):
             error = '请输入学号!'
-        else:
-            uid = request.POST.get('uid')
-            if get_grade(uid) == "error":
-                error = "请输入正确的学号"
+        uid = request.POST.get('uid')
+        if get_grade(uid) == "error":
+            error = "请输入正确的学号!"
         users = User.objects.all()
         for user in users:
             if uid == user.username:
-                error = "您输入的学号已存在"
+                error = "您输入的学号已存在!"
                 break
         if error:
             ctx['error'] = error
@@ -217,3 +220,18 @@ def alogout(request):
     if request.user.is_authenticated():
         logout(request)
     return redirect('/')  # logout successfully
+
+def Search(request):
+    if 'q' in request.GET:
+        term = request.GET['q']
+        posts = Post.objects.all()
+        results = []
+        for post in posts:
+            if term in get_grade(post.post_uid):
+                post.post_uid = get_grade(post.post_uid)
+                results.append(post)
+        ctx = {}
+        ctx.update(csrf(request))
+        ctx['posts'] = results
+        ctx['user'] = request.user
+        return render(request, 'search.html', ctx)

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+<!-- head -->
+
+{% block cssfiles %}
+    {% load staticfiles %}    
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+{% endblock %}
+{% block jsfiles%}
+    <script src="{% static "js/ajax.js" %}"></script>
+{% endblock %}
+<!-- /head -->
+
+<!-- body -->
+{% block notice %}
+{% if user.is_authenticated %}
+    <div class="nav navbar-nav navbar-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm dropdown-toggle btn-notice" data-toggle="dropdown">
+                新消息 {{ notice_num }}
+                <span class="caret"></span>
+            </button>
+            {% if notices %}
+                <ul class="dropdown-menu" role="menu">
+                    {% for notice in notices %}
+                        <li>
+                            <a href="/post/{{ notice.post_id }}/">{{notice.post_content}} ......</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block search %}
+    <form class="search nav navbar-nav" method="get" action="/search/">
+        <input type="text" class="input-sm search-query" value="" name="q">
+        <input type="submit" class="btn btn-search" value="搜索">
+    </form>
+{% endblock %}
+
+{% block login %}
+    {% if user.is_authenticated %}
+        <li>
+            <a href="/logout/">登出</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="/login/">登录</a>
+        </li>
+        <li>
+            <a href="/register/">注册</a>
+        </li>
+    {% endif %}
+{% endblock %}
+
+{% block mainbody %}
+    <table class="table">
+        {% for post in posts %}
+            <tr>
+                <td>{{ post.post_content }}</td>
+                <td>{{ post.post_uid }}</td>
+            </tr>
+        {% endfor %}
+    </table>    
+{% endblock %}
+
+
+<!-- /body -->
+
+
