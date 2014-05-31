@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="static/css/main.css">
     {% endblock %}
     {% block jsfiles%}
-    <script src="static/js/ajax.js"></script>
+        <script src="static/js/ajax.js"></script>
     {% endblock %}
 <!-- /head -->
 
@@ -12,17 +12,26 @@
 {% block notice %}
     <div class="nav navbar-nav navbar-right">
         <div class="btn-group">
-            <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-sm dropdown-toggle btn-notice" data-toggle="dropdown">
                 新消息 {{ notice_num }}
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 {% for notice in notices %}
-                    <li><a href="/notice/{{ notice.id }}/">{{ notice.id }}</a></li>
+                    <li>
+                        <a href="/post/{{ notice.post_id }}/">{{notice.post_content}} ......</a>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
     </div>
+{% endblock %}
+
+{% block search %}
+    <form class="search nav navbar-nav" method="get" action="/search/">
+        <input type="text" class="input-sm search-query" value="" name="q">
+        <input type="submit" class="btn btn-search" value="搜索">
+    </form>
 {% endblock %}
 
 {% block mainbody %}
@@ -34,16 +43,18 @@
                     <div class="apost">
                         <label class="post_uid">{{ post.post_uid }}</label>
                         <button type="button" onclick="post_like({{ post.id }})" class="btn-like btn btn-default">
-                            <label id="post_like{{ post.id }}">
+                            <label id="post_like{{ post.id }}" class="heart">
                                 <span class="glyphicon glyphicon-heart-empty"></span>
                             </label> 
                             <label id="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
                         </button>
-                        <div class="post_content">
-                            {{ post.post_content }}
-                        </div>
+                        <a href="/post/{{ post.id }}/" class="post_content">
+                            <div class="post_content color">
+                                {{ post.post_content }}
+                            </div>
+                        </a>
                         <button class="btn btn-default btn-sm btn-comment" data-toggle="modal" data-target="#showpost{{ post.id }}">评论 <span>{{ post.comments_num }}</span></button>
-                        <div class="stats">
+                        <div class="post_date">
                             <span class="pub-time">{{ post.post_date }}</span>
                         </div>
 
@@ -93,11 +104,33 @@
         </div> <!-- mansory -->
     </div> <!-- container -->
 
+
+    <div class="pagination">
+        <span class="previous_page">
+            {% if posts.has_previous %}
+                <button class="btn btn-default btn-page"><a href="?page={{ posts.previous_page_number }}">←上一页</a></button>
+            {% else %}
+                <button class="btn btn-default btn-page" disabled="disabled"><a href="">←上一页</a></button>
+            {% endif %}  
+        </span>
+        <span class="current_page">
+                第 {{ posts.number }} 页， 共 {{ posts.paginator.num_pages }} 页
+        </span>
+        <span class="next_page">
+            {% if posts.has_next %}
+                <button class="btn btn-default btn-page"><a href="?page={{ posts.next_page_number }}">下一页→</a></button>
+            {% else %}
+                <button class="btn btn-default btn-page" disabled="disabled"><a href="">下一页→</a></button>
+            {% endif %} 
+        </span>
+    </div>
+
     {% if user.is_authenticated %}
-        <form action="/post/" method="post" accept-charset="utf-8">
+        <form action="/post/" method="post" accept-charset="utf-8" class="post_form">
             {% csrf_token %}
-            {{ post_form.as_p }}
-            <input type="submit" value="Submit"/>
+            <textarea class="form-control" name="content" rows="3" id="comment_textarea"></textarea>
+            <br>
+            <input id="submit" type="submit" class="btn btn-primary" value="发秘密"/>
         </form>
 
     {% else %}
@@ -124,31 +157,25 @@
         </form>
     {% endif %}
 
-    <div class="pagination">
-        <span class="previous_page">
-            {% if posts.has_previous %}
-                <button class="btn btn-default btn-page"><a href="?page={{ posts.previous_page_number }}">←上一页</a></button>
-            {% else %}
-                <button class="btn btn-default btn-page" disabled="disabled"><a href="">←上一页</a></button>
-            {% endif %}  
-        </span>
-        <span class="current_page">
-                第 {{ posts.number }} 页， 共 {{ posts.paginator.num_pages }} 页
-        </span>
-        <span class="next_page">
-            {% if posts.has_next %}
-                <button class="btn btn-default btn-page"><a href="?page={{ posts.next_page_number }}">下一页→</a></button>
-            {% else %}
-                <button class="btn btn-default btn-page" disabled="disabled"><a href="">下一页→</a></button>
-            {% endif %} 
-        </span>
-    </div>
+    
 
 <!-- <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script> -->
 <!-- <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>   -->
 <script type="text/javascript" src="static/js/jquery.masonry.min.js"></script>
 <script type="text/javascript" src="static/js/main.js"></script>
 
+<script>
+    function make_color() {
+        var colors = ["#FFE7BA", "#FF6A6A", "#EE7AE9", "#8EE5EE", "#8B1C62",
+                       "#6CA6CD", "#7A67EE", "#141414", "#000080", "#FFFF00", 
+                       "#FF1493", "#CDCD00", "#9400D3", "#87CEEB", "#668B8B", 
+                       "#71C671", "#CD8500" ];
+        $(".color").each(function() {
+            $(this).css("color", colors[Math.floor(Math.random() * (colors.length))])
+        });
+    }
+    make_color();
+</script>
 
 {% endblock %}
 

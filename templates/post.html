@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block cssfiles %}
-    <link rel="stylesheet" href="../../static/css/notice.css">
+    <link rel="stylesheet" href="../../static/css/post.css">
 {% endblock %}
 {% block jsfiles%}
     <script src="../../static/js/ajax.js"></script>
@@ -12,22 +12,28 @@
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
 			<div class="main">
-			{% if user.is_authenticated %}
 				<div class="post_content">
 		        	{{ post.post_content }}
-		        </div><br>
+		        </div>
+				<hr>
+					<div class="others">
+						<span>{{ comments_num }}条评论</span>
+						<span>{{ post.post_date|date:"m月d日 h:m" }}</span>
+					</div>
 		        <div class="comments">
 		        	<table class="table table-striped table-hover">
 		        		<tbody>
 		        			{% for comment in comments %}
-			            		<tr id="comment{{comment.id}}" onclick="comment({{ comment.id }})" href="#comment_textarea">
+			            		<tr id="comment{{ forloop.counter }}" onclick="comment({{ forloop.counter }})">
 			            			<td>{{ comment.comment_content }}</td>
 			            			<td>{{ comment.comment_uid }}</td>
+			            			<td><span class="comment_date"><br>{{ comment.comment_date|date:"m月d日 h:m"}}</span></td>
 			            		</tr>
 			            	{% endfor %}
 			            </tbody>
 		        	</table>
 		        </div>
+		    {% if user.is_authenticated %}
 		        <form action="/comment/{{ post.id }}/" method="post" accept-charset="utf-8">
 		        	{% csrf_token %}
 		        	<textarea class="form-control" name="comment" rows="2" id="comment_textarea"></textarea>

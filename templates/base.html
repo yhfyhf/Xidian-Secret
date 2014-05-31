@@ -39,14 +39,12 @@
 	          		<a href="#">联系</a>
 	        	</li>
 	      	</ul>
-
-	      	{% block notice %}
-	      	{% endblock %}
 	       	
-	        <form class="search nav navbar-nav " method="get" action="/search/">
-	        	<input type="text" class="input-sm search-query" value="" name="q">
-	            <input type="submit" class="btn btn-sm" value="搜索">
-	       	</form>
+	       	{% block notice %}
+	       	{% endblock %}
+
+	       	{% block search %}
+	       	{% endblock %}
 	       	
 	    </nav>
 	  </div>

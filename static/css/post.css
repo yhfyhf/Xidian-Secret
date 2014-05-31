@@ -1,0 +1,34 @@
+.main {
+	padding: 2%;
+}
+
+.post_content {
+	font-size: 26px;
+	margin-left: 5%;
+	margin-bottom: 40px;
+}
+
+div.comments {
+	width: 80%;
+	margin: auto;
+}
+
+.others span {
+	margin-left: 8%;
+}
+
+.others {
+	margin-bottom: 60px;
+}
+
+.comment_date {
+	/*margin-left: 100%;*/
+	float: right;
+	font-size: 10px;
+}
+
+@media screen and (max-width:480px) {
+	div.comments {
+		width: 100%;
+	}
+}

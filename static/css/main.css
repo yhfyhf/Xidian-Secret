@@ -1,10 +1,6 @@
 body {
     background-color: #eee;
-}
-
-.container {
-    margin-top: 6px;
-    margin-bottom: 6px;
+    background:url(/static/image/bg.png);
 }
 
 #container {
@@ -12,15 +8,15 @@ body {
     margin-bottom: 10px;
 }
 
-.img-thumbnail {
+/*.img-thumbnail {
     max-height: 587px;
-}
+}*/
         
 .item {
-    margin: 15px 0 20px 0;
+    margin: 35px 0px 35px 0px;
 } 
         
-.profile {
+/*.profile {
     display: block;
     width: 40px;
     height: 40px;
@@ -73,15 +69,15 @@ body {
     color: #868686;
     overflow: hidden;
     text-overflow: ellipsis;
-}
+}*/
 
-.stats {
+.post_date {
     margin-left: 10px;
     padding-top: 10px;
     margin-bottom: 5px;
 }
 
-.stats .pub-time {
+.post_date .pub-time {
     float: right;
     margin-right: 10px;
     color: #868686;
@@ -89,7 +85,7 @@ body {
     text-overflow: ellipsis;
 }
 
-.favor-count{
+/*.favor-count{
     height: 12px;
     font-size: 11px;
     line-height: 11px;
@@ -101,7 +97,7 @@ body {
     float: none;
     opacity: .6;
     filter: alpha(opacity=60);
-} 
+} */
 
 .apost {
     display: inline-block;
@@ -129,6 +125,11 @@ body {
     padding-left: 5%;
     padding-right: 5%;
     font-family: Consolas,Monaco,'Andale Mono',monospace,Verdana;
+    cursor: pointer;
+}
+
+a.post_content {
+    text-decoration: none;
 }
 
 .pub-time {
@@ -200,6 +201,10 @@ body {
     border-color: white;
 }
 
+.heart {
+    color: #FF1493;
+}
+
 .btn-comment {
     margin-left: 72%;
 }
@@ -224,11 +229,59 @@ span.current_page {
     background: white;
 }
 
-footer {
-    text-align: center;
-    margin-top: 20px;
+form.post_form {
+    width: 40%;
+    margin-left: 20%;
+    margin-top: 100px;
 }
 
+#submit {
+    margin-left: 85%;
+}
+
+.form-search {
+    margin-top: 2%;
+}
+
+.btn-search {
+    color: white;
+    background: black;
+}
+
+.btn-search:hover, .btn-search:visited {
+    color: white;
+}
+
+
+.btn-notice {
+    color: white;
+    background: black;
+}
+
+.btn-notice:hover, .btn-notice:visited {
+    color: white;
+}
+
+@media screen and (max-width:1199px) {
+    .item {
+        width: 80%;
+        margin-left: 10%;
+    }
+
+    .btn-comment {
+        margin-left: 78%;
+    }
+
+    form.post_form {
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 20px;
+    }
+
+    #submit {
+        margin-left: 85%;
+    }
+}
 
 
 @media screen and (max-width:480px) {
@@ -252,5 +305,16 @@ footer {
         margin-left: 5%;
         margin-right: 5%;
     }
+
+    form.post_form {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+    }
+
+    #submit {
+        margin-left: 78%;
+    }
 }
+
 

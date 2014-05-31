@@ -19,17 +19,8 @@ function post_like(post_id) {
     xmlhttp.send();
 }
 
-/*function show_post(post_id) {
-    var post_content, post_date, post_like_num;
-    $.getJSON('/'+post_id+'/', 
-        function(data) {
-            var node = document.getElementById("post" + post_id);
-            jQuery.each(data, function() {
-                post_content = this.fields.post_content;
-                post_date = this.fields.post_date;
-                post_like_num = this.fields.post_like_num;
-            });
-        }
-    );
+function comment(floor_num) {
+    var textarea = document.getElementById("comment_textarea");
+    textarea.value = "@" + floor_num + "楼 ";
+}
 
-}*/

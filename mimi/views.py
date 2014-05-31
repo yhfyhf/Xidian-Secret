@@ -1,3 +1,5 @@
+#! -*- coding: utf-8 -*-
+
 from django.shortcuts import render
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, render_to_response
@@ -40,11 +42,13 @@ def index(request):
         post.comments_num = len(comments)
     if request.user.is_authenticated():
         notices = Notice.objects.filter(user_id=request.user.id, is_read=False)
+        for notice in notices:
+            notice.post_content = Post.objects.get(id=notice.post_id).post_content[:10]
     else:
         notices = None
     notice_num = len(notices) if notices else 0
     # paginator
-    paginator = Paginator(posts, 30) # show 30 posts per page
+    paginator = Paginator(posts, 20) # show 30 posts per page
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
@@ -61,32 +65,29 @@ def index(request):
     ctx['notice_num'] = notice_num
     return render(request, 'index.html', ctx)
 
-def notice(request, notice_id):
-    if request.method == "GET":
-        if request.user.is_authenticated():
-            try:
-                notice = Notice.objects.get(id=notice_id)
-                if request.user.id == notice.user_id:
-                    ctx = {}
-                    notice.is_read = True
-                    notice.save()
-                    post = Post.objects.get(id=notice.post_id)
-                    comments = post.comment_set.all()
-                    ctx.update(csrf(request))
-                    ctx['post'] = post
-                    ctx['comments'] = comments
-                    return render(request, 'notice.html', ctx)
-                else:  # others are checking the notice
-                    return redirect('/')
-            except:
-                return redirect('/')
-        else:   # no user is logged
-            return redirect('')
-    else:  # request method is not "GET"
-        return redirect('/')
-
 
 def show_post(request, post_id):
+    if request.method == "GET":
+        post = Post.objects.get(id=post_id)
+        if request.user.is_authenticated():
+            try:
+                # find the notice belongs to the logging user and set it read
+                notice = Notice.objects.get(post_id=post_id, user_id=request.user.id, is_read=False)
+                notice.is_read = True
+                notice.save()
+            except:
+                pass
+        comments = post.comment_set.all()
+        ctx = {}
+        ctx.update(csrf(request))
+        ctx['post'] = post
+        ctx['comments'] = comments
+        ctx['comments_num'] = len(comments)
+        return render(request, 'post.html', ctx)
+    else:
+        return redirect('/')
+
+def show_post_json(request, post_id):
     if request.method == "GET":
         response = HttpResponse()
         response['Content-Type'] = "text/javascript"

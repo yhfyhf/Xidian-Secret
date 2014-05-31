@@ -5,7 +5,7 @@ $(function(){
         });
     });
  
-    $('.masonry').infinitescroll({
+    /*$('.masonry').infinitescroll({
         navSelector  : '#page-nav', 
         nextSelector : '#page-nav a',
         itemSelector : '.item',
@@ -20,9 +20,10 @@ $(function(){
             $newElems.animate({'opacity':1});
             $('.masonry').masonry('appended', $newElems, true);         
         });
-    });
+    });*/
 });
 
+/*
 $(document).on('mouseover', '.item', function() {
     $(this).find('.brick-actions').show();
 });
@@ -69,4 +70,4 @@ justDoShare.setApi({
         url : "http://www.shainimei.com",
         title : "快到晒你妹爆照呀...",
     },
-});
+});*/
