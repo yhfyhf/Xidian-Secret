@@ -13,6 +13,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from mimi.models import Post, Comment, Notice
 
+from get_grade import get_grade
+
 
 class PostForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea)
@@ -98,7 +100,7 @@ def show_post_json(request, post_id):
     else:
         return redirect('/')
 
-def apost(request):
+def apost(request):   #  just POST
     if not verify(request):
         return redirect('/')
     if request.user.is_authenticated():
@@ -108,7 +110,7 @@ def apost(request):
     else:
         return redirect('/')
 
-def comment(request, post_id):
+def comment(request, post_id): # just POST
     if not verify(request):
         return redirect('/')
     comment_form = CommentForm(request.POST)
@@ -172,30 +174,40 @@ def register(request):
     ctx = {}
 
     if request.method == 'POST':
-        if not request.POST.get('uid'):
-            errors.append('Please Enter uid')
-        else:
-            uid = request.POST.get('uid')
-        if not request.POST.get('password'):
-            errors.append('Please Enter password')
-        else:
-            password= request.POST.get('password')
+        ctx = {}
+        ctx.update(csrf(request))
+        error = None
         if not request.POST.get('password2'):
-            errors.append('Please Enter password2')
+            error = '请再次输入密码!'
         else:
             password2 = request.POST.get('password2')
-
-        if password is not None and password2 is not None:
-            if password == password2:
-                compareFlag = True
-            else:
-                errors.append('different password!')
-
-        if uid is not None and password is not None and password2 is not None and compareFlag:
-            user = User.objects.create_user(uid, None, password)
-            user.is_active = True
-            user.save()  # register successfully
-            return redirect('/')
+        if not request.POST.get('password'):
+            error = '请输入密码!'
+        else:
+            password= request.POST.get('password')
+        if not password == password2:
+            error = '您输入的两次密码不一致!'
+        if password:
+            if len(password) >= 20 or len(password) < 6:
+                error = "密码长度必须在6位和20位之间!"
+        if not request.POST.get('uid'):
+            error = '请输入学号!'
+        else:
+            uid = request.POST.get('uid')
+            if get_grade(uid) == "error":
+                error = "请输入正确的学号"
+        users = User.objects.all()
+        for user in users:
+            if uid == user.username:
+                error = "您输入的学号已存在"
+                break
+        if error:
+            ctx['error'] = error
+            return render(request, 'register.html', ctx)
+        user = User.objects.create_user(uid, None, password)
+        user.is_active = True
+        user.save()  # register successfully
+        return redirect('/')
 
     ctx.update(csrf(request))
     ctx['errors'] = errors

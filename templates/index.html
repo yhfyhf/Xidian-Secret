@@ -76,6 +76,8 @@
                                 <span class="post_content">{{ post.post_content }}</span>
                                 <hr><hr>
                                 {% for comment in post.comments %}
+                                    <span><strong>{{ forloop.counter }}楼</strong></span>
+                                    <span>{{ comment.comment_uid}}</span>
                                     <span class="comment_content">{{ comment.comment_content }}</span><br>
                                     <span class="pub-time">{{ comment.comment_date }}</span> <hr>
                                 {% endfor %}

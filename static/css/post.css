@@ -26,6 +26,10 @@ div.comments {
 	font-size: 10px;
 }
 
+.table-hover {
+	cursor: pointer;
+}
+
 @media screen and (max-width:480px) {
 	div.comments {
 		width: 100%;

@@ -4,48 +4,40 @@
 </head>
 <body>
 
- {% if errors %}
-        <li>
-
-            {% for error in errors %}
-             <p style="color: red;">
-                Please correct the error: {{error}} below.
-             </p>
-              {% endfor %}
-        </li>
-    {% endif %}
+{% if error %}
+    <p id="error" style="color: red;">{{error}}</p>
+{% endif %}
 <table>
     <form action="/register/" method="post">
         {% csrf_token %}
         <tr>
             <td>
-                <label >Uid:</label>
+                <label>学号:</label>
             </td>
             <td>
-                <input type = 'text' placeholder="Please input account" name = 'uid'>
+                <input type='text' name='uid' required />
             </td>
         </tr>
         <tr>
             <td>
-                <label >Password:</label>
+                <label >密码:</label>
             </td>
             <td>
-              <input type = 'password' placeholder="Please input password" name = 'password'>
+              <input type='password' name='password' required />
             </td>
         </tr>
          <tr>
              <td>
-                <label >Password:</label>
+                <label>再次输入密码:</label>
              </td>
              <td>
-                 <input type = 'password' placeholder="Please input password" name ='password2'>
+                 <input type='password' name ='password2' required />
              </td>
 
          </tr>
           <tr>
-
               <td>
-                   <input type = 'submit' placeholder="Register" value="Register">
+                   <input type='submit' value="注册">
               </td>
           </tr>
     </form>
