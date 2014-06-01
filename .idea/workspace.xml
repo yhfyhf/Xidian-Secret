@@ -31,7 +31,7 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mimi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="214" column="17" selection-start="7486" selection-end="7486" vertical-scroll-proportion="0.75499094" vertical-offset="2794" max-vertical-offset="4560">
+            <state line="146" column="41" selection-start="5383" selection-end="5383" vertical-scroll-proportion="0.40108892" vertical-offset="1969" max-vertical-offset="4590">
               <folding>
                 <element signature="e#26#61#0" expanded="true" />
               </folding>
@@ -42,7 +42,7 @@
       <file leaf-file-name="get_grade.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mimi/get_grade.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="16" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="1485">
+            <state line="61" column="16" selection-start="1350" selection-end="1350" vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="1485">
               <folding />
             </state>
           </provider>
@@ -604,14 +604,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mimi/get_grade.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="16" selection-start="1353" selection-end="1353" vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="1485">
+        <state line="61" column="16" selection-start="1350" selection-end="1350" vertical-scroll-proportion="0.0" vertical-offset="465" max-vertical-offset="1485">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mimi/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="214" column="17" selection-start="7486" selection-end="7486" vertical-scroll-proportion="0.75499094" vertical-offset="2794" max-vertical-offset="4560">
+        <state line="146" column="41" selection-start="5383" selection-end="5383" vertical-scroll-proportion="0.40108892" vertical-offset="1969" max-vertical-offset="4590">
           <folding>
             <element signature="e#26#61#0" expanded="true" />
           </folding>

@@ -143,6 +143,8 @@ def comment(request, post_id): # just POST
     return redirect('/post/'+post_id+'/')
 
 def post_like(request, post_id):
+    if not request.user.is_authenticated():
+        return HttpResponse("Login first.")
     posts = Post.objects.filter(id=int(post_id))
     for post in posts:
         post.post_like_num += 1
