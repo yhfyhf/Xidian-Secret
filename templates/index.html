@@ -109,6 +109,9 @@
                                     </label> 
                                     <label class="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
                                 </button>
+                              <div class="modal-body">
+                                <span class="post_content">{{ post.post_content }}</span>
+                              </div>
                               </div>
                               <div class="modal-footer">
                                 {% if user.is_authenticated %}
