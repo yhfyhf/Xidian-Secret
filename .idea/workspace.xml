@@ -31,11 +31,9 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mimi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="19" selection-start="3926" selection-end="3926" vertical-scroll-proportion="0.6954315" vertical-offset="1117" max-vertical-offset="3765">
+            <state line="271" column="104" selection-start="9321" selection-end="9321" vertical-scroll-proportion="0.61290324" vertical-offset="3590" max-vertical-offset="4365">
               <folding>
                 <element signature="e#26#61#0" expanded="true" />
-                <element signature="e#7651#7758#0" expanded="false" />
-                <element signature="e#7785#8307#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -44,7 +42,7 @@
       <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mimi/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="48" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+            <state line="37" column="0" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
               <folding />
             </state>
           </provider>
@@ -53,7 +51,7 @@
       <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mimi/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="671" selection-end="671" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+            <state line="18" column="0" selection-start="788" selection-end="788" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
               <folding />
             </state>
           </provider>
@@ -518,8 +516,6 @@
         <state line="13" column="0" selection-start="502" selection-end="502" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="285">
           <folding>
             <element signature="e#26#61#0" expanded="true" />
-            <element signature="e#7651#7758#0" expanded="false" />
-            <element signature="e#7785#8307#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -595,25 +591,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mimi/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="671" selection-end="671" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
+        <state line="18" column="0" selection-start="788" selection-end="788" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="345">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mimi/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="48" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+        <state line="37" column="0" selection-start="1146" selection-end="1146" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mimi/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="19" selection-start="3926" selection-end="3926" vertical-scroll-proportion="0.6954315" vertical-offset="1117" max-vertical-offset="3765">
+        <state line="271" column="104" selection-start="9321" selection-end="9321" vertical-scroll-proportion="0.61290324" vertical-offset="3590" max-vertical-offset="4365">
           <folding>
             <element signature="e#26#61#0" expanded="true" />
-            <element signature="e#7651#7758#0" expanded="false" />
-            <element signature="e#7785#8307#0" expanded="false" />
           </folding>
         </state>
       </provider>

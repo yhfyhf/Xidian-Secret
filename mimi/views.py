@@ -41,6 +41,7 @@ def index(request):
         comments = post.comment_set.all()
         post.comments = comments
         post.comments_num = len(comments)
+    # notice
     if request.user.is_authenticated():
         notices = Notice.objects.filter(user_id=request.user.id, is_read=False)
         for notice in notices:
@@ -57,6 +58,9 @@ def index(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
+    # chat
+    chats = Chat.objects.filter(to_id=request.user.id, is_read=False)
+    chat_num = len(chats) if chats else 0
     for post in posts:
         post.post_uid = get_grade(post.post_uid)
         for comment in post.comment_set.all():
@@ -66,6 +70,7 @@ def index(request):
     ctx['posts'] = posts
     ctx['notices'] = notices
     ctx['notice_num'] = notice_num
+    ctx['chat_num'] = chat_num
     return render(request, 'index.html', ctx)
 
 
@@ -108,6 +113,8 @@ def apost(request):   #  just POST
         return redirect('/')
     if request.user.is_authenticated():
         submitted_content = request.POST['content']
+        if not submitted_content:
+            return redirect('/')
         post = Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0)
         post.save()
         Notice(post_id=post.id, user_id=request.user.id).save()
@@ -119,6 +126,8 @@ def comment(request, post_id): # just POST
     if not verify(request):
         return redirect('/')
     submitted_content = request.POST['comment']
+    if not submitted_content:
+        return redirect('/')
     Comment(post_id=post_id, comment_uid=request.user.username,
             comment_content=submitted_content, comment_like_num=0,
             comment_grade=get_grade(request.user.username)).save()
@@ -242,19 +251,32 @@ def search(request):
         ctx['user'] = request.user
         return render(request, 'search.html', ctx)
 
-#def chat(request, from_id, to_id):
-#    if not request.user.is_authenticated():
-#        return redirect('/login/')
-#    if request.method == "POST":
-#        chat_content = request.POST['chat']
-#        Chat(from_id=from_id, to_id=to_id, chat_content=chat_content).save()
-#    elif request.method == "GET":
-#        if not from_id == request.user.id:
-#            return HttpResponse("")
-#    else:
-#        raise Http404()
+def chat(request, from_id, to_id):
+    if not request.user.is_authenticated():
+        return redirect('/login/')
+    user_id = request.user.id
+    if request.method == "POST":
+        if not user_id == int(from_id): # not logged user post a chat
+            raise Http404()
+        chat_content = request.POST['chat']
+        Chat(from_id=from_id, to_id=to_id, chat_content=chat_content).save()
+        return redirect('/chat/')
+    else:
+        raise Http404()
 
-
+def show_chat(request):
+    if not request.user.is_authenticated():
+        return redirect('/login/')
+    if request.method == "GET":
+        ctx = {}
+        chats = Chat.objects.filter(Q(from_id=request.user.id) | Q(to_id=request.user.id)).order_by("-id")
+        Chat.objects.filter(to_id=request.user.id).update(is_read=True)
+        ctx.update(csrf(request))
+        ctx['chats'] = chats
+        ctx['user'] = request.user
+        return render(request, "chat.html", ctx)
+    else:
+        raise Http404()
 
 
 

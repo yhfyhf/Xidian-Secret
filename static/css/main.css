@@ -7,68 +7,10 @@ body {
     margin-bottom: 10px;
 }
 
-/*.img-thumbnail {
-    max-height: 587px;
-}*/
         
 .item {
     margin: 35px 0px 35px 0px;
 } 
-        
-/*.profile {
-    display: block;
-    width: 40px;
-    height: 40px;
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    border-radius: 20px;
-}  
-        
-.top {
-    background-color: #fff;
-    webkit-border-top-left-radius: 4px;
-    border-top-left-radius: 4px;
-    -moz-border-radius-topleft: 4px;
-    webkit-border-top-right-radius: 4px;
-    border-top-right-radius: 4px;
-    -moz-border-radius-topright: 4px;
-}
-
-.bottom{
-    background-color: #fff;
-    webkit-border-bottom-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    -moz-border-radius-bottomleft: 4px;
-    webkit-border-bottom-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    -moz-border-radius-bottomright: 4px;
-}
-
-.row-fluid .span4 {
-    float: left;
-    margin-left: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-.row-fluid .span8 {
-    float: left;
-    margin-left: 10px;
-    padding-top: 10px;
-}
-.row-fluid .span8 a {
-    box-shadow: none;
-    color: #a5bac5;
-    text-decoration: none;
-}
-
-.row-fluid .span12 {
-    margin-left: 5px;
-    padding-top: 10px;
-    color: #868686;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}*/
 
 .post_date {
     margin-left: 10px;
@@ -84,19 +26,6 @@ body {
     text-overflow: ellipsis;
 }
 
-/*.favor-count{
-    height: 12px;
-    font-size: 11px;
-    line-height: 11px;
-    padding-left: 16px;
-    margin-right: 5px;
-    background: url('/static/img/like.png') no-repeat;
-    background-position: 0 1px;
-    color: #aaa89f;
-    float: none;
-    opacity: .6;
-    filter: alpha(opacity=60);
-} */
 
 .apost {
     display: inline-block;
@@ -140,45 +69,6 @@ a.post_content {
     margin-top: 5px;
     position: relative;
 }
-
-/*.brick-actions {
-    position: absolute;
-    z-index: 990;
-    top: 10px;
-    left: 0;
-    width: 224px;
-    height: 35px;
-    text-align: center;
-    padding-top: 5px;
-    display: none;
-    margin-left: 20%;
-}
-
-.icon_bg {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    line-height: 14px;
-    vertical-align: text-top;
-    background-image: url('/static/img/share_icons.png');
-    background-origin: padding-box;
-}
-
-.icon_douban {
-    background-position: 0 -560px;
-} 
-
-.icon_sinaweibo {
-    background-position: 0 -96px;
-} 
-
-.icon_qzone {
-    background-position: 0 -64px;
-} 
-
-.dropdown-menu {
-    min-width: 0px;
-} */
 
 
 .navbar {border-radius: 0px !important;}
@@ -250,14 +140,23 @@ form.post_form {
     color: white;
 }
 
-
 .btn-notice {
-    color: white;
     background: black;
+}
+
+.btn-notice span {
+    /*font-size: 10px;*/
+    color: white;
+    text-align: bottom;
 }
 
 .btn-notice:hover, .btn-notice:active {
     color: white;
+}
+
+.navbar-right span {
+    color: white;
+    font-size: 13px;
 }
 
 .input-sm {

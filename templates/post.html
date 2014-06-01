@@ -57,7 +57,7 @@
 		        <form action="/comment/{{ post.id }}/" method="post" accept-charset="utf-8">
 		        	{% csrf_token %}
 		        	<tr>
-		        		<textarea class="form-control" name="comment" rows="2" id="comment_textarea"></textarea>
+		        		<textarea class="form-control" name="comment" rows="2" id="comment_textarea" required/></textarea>
 		        	</tr>
 		        	<tr>	
 		        		<br>

@@ -33,4 +33,5 @@ class Chat(models.Model):
     chat_content = models.TextField()
     from_id = models.PositiveIntegerField()
     to_id = models.PositiveIntegerField()
-    id_read = models.BooleanField(default=False)
+    is_read = models.BooleanField(default=False)
+    chat_date = models.DateTimeField(auto_now_add=True)

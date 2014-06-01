@@ -11,25 +11,36 @@
 <!-- body -->
 {% block notice %}
 {% if user.is_authenticated %}
-    <div class="nav navbar-nav navbar-right">
-        <div class="btn-group">
-            <button type="button" class="btn btn-sm dropdown-toggle btn-notice" data-toggle="dropdown">
-                新消息 {{ notice_num }}
-                <span class="caret"></span>
-            </button>
-            {% if notices %}
-                <ul class="dropdown-menu" role="menu">
-                    {% for notice in notices %}
-                        <li>
-                            <a href="/post/{{ notice.post_id }}/">{{notice.post_content}} ......</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-sm dropdown-toggle btn-notice" data-toggle="dropdown">
+            <span>新消息 {{ notice_num }}</span>
+            <span class="caret"></span>
+        </button>
+        {% if notices %}
+            <ul class="dropdown-menu" role="menu">
+                {% for notice in notices %}
+                    <li>
+                        <a href="/post/{{ notice.post_id }}/">{{notice.post_content}} ......</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div> <!-- btn-group -->
+{% endif %}
+{% endblock %}
+
+{% block chat %}
+{% if user.is_authenticated %}
+    <div class="btn-group">
+        <button type="button" class="btn btn-sm dropdown-toggle btn-notice" data-toggle="dropdown" onclick="location.href='/chat/';">
+            <span>私信 {{ chat_num }}</span>
+        </button>
     </div>
 {% endif %}
 {% endblock %}
+
+
+
 
 {% block search %}
     <form class="search nav navbar-nav" method="get" action="/search/">
@@ -66,7 +77,7 @@
                             <label id="post_like{{ post.id }}" class="heart">
                                 <span class="glyphicon glyphicon-heart-empty"></span>
                             </label> 
-                            <label id="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
+                            <label class="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
                         </button>
                         <a href="/post/{{ post.id }}/" class="post_content">
                             <div class="post_content color">
@@ -89,32 +100,21 @@
                                     <label id="post_like{{ post.id }}in" class="heart">
                                         <span class="glyphicon glyphicon-heart-empty"></span>
                                     </label> 
-                                    <label id="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
+                                    <label class="post_like_num{{ post.id }}">{{ post.post_like_num }}</label>
                                 </button>
                               </div>
-                              <div class="modal-body">
-                                <span>{{ post.post_content }}</span>
-                                <hr><hr>
-                                {% for comment in post.comments %}
-                                    <span><strong>{{ forloop.counter }}楼</strong></span>
-                                    <span>{{ comment.comment_grade }}</span>
-                                    <span class="comment_content">&nbsp;&nbsp;&nbsp;&nbsp;{{ comment.comment_content }}</span><br>
-                                    <span class="pub-time">{{ comment.comment_date|date:"m月d日 h:m" }}</span> <hr>
-                                {% endfor %}
-                              </div>
                               <div class="modal-footer">
-
                                 {% if user.is_authenticated %}
                                     <form action="/comment/{{ post.id }}/" method="post" accept-charset="UTF-8">
                                         {% csrf_token %}
-                                        <textarea class="form-control" rows="2" name="comment"></textarea>
+                                        <textarea class="form-control" rows="2" name="comment" required/></textarea>
                                         <br>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <input type="submit" class="btn btn-primary" value="Comment"/>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <input type="submit" class="btn btn-primary" value="评论"/>
                                     </form>
                                 {% else %}
                                     <span>请先登录以评论。</span>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                                 {% endif %}
                               </div>
                             </div><!-- /.modal-content -->
@@ -153,9 +153,9 @@
     {% if user.is_authenticated %}
         <form action="/post/" method="post" accept-charset="utf-8" class="post_form">
             {% csrf_token %}
-            <textarea class="form-control" name="content" rows="3" id="comment_textarea"></textarea>
+            <textarea class="form-control" name="content" rows="3" id="comment_textarea" requiredi></textarea>
             <br>
-            <input id="submit" type="submit" class="btn btn-primary" value="发秘密"/>
+            <input id="submit" type="submit" class="btn btn-primary" value="发秘密" />
         </form>
     {% endif %}
 

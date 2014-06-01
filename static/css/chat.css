@@ -1,0 +1,13 @@
+tr {
+	width: 80%;
+	margin-left: 10%;
+}
+
+.chat_user {
+	width: 15%;
+	min-width: 100px;
+}
+
+.char_content {
+	width: 80%;
+}

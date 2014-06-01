@@ -13,4 +13,6 @@ urlpatterns = patterns('',
     url(r'^post_like/(?P<post_id>\d+)/$', 'mimi.views.post_like'),
     url(r'^search/$','mimi.views.search'),
     url(r'^feeds/$', LatestEntriesFeed()),
+    url(r'^chat/$', 'mimi.views.show_chat'),
+    url(r'^chat/(?P<from_id>\d+)/(?P<to_id>\d+)/$', 'mimi.views.chat'),
 )

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block cssfiles %}
+	<link rel="stylesheet" type="text/css" href="../static/css/chat.css">
+{% endblock %}
+{% block jsfiles %}
+	<script src="../static/js/ajax.js"></script>
+{% endblock %}
+
+{% block mainbody %}
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<table class="table table-hover">
+				<tbody>
+					{% for chat in chats %}
+						{% ifequal chat.from_id user.id %}  <!-- 你发送给别人 -->
+							<tr class="warning">  
+								<td class="chat_user">你发送给{{ chat.to_id }}:</td>
+								<td class="char_content">{{ chat.chat_content }}</td>
+								<td class="reply_column"></td>
+							</tr>
+						{% else %}  <!-- 别人发送给你 -->
+							<tr class="danger" id="chat{{ chat.from_id }}">
+								<td class="chat_user">{{ chat.from_id }} 发送给你</td>
+								<td class="char_content">{{ chat.chat_content }}</td>
+								<td class="reply_column">
+		                            <button class="btn btn-default btn-sm" onclick="reply({{ chat.id }})">回复</button>
+								</td>
+							</tr>
+							<tr class="active" id="reply{{chat.id}}" hidden="hidden">
+								<form action="/chat/{{ user.id }}/{{ chat.from_id }}/" method="post" accept-charset="utf-8">
+									{% csrf_token %}
+									<td></td>
+									<td class="reply_input">
+										<input type="text" class="form-control" name="chat" rows="2" required /></input>
+									</td>
+									<td class="reply_input_btn">
+										<input class="form-control btn-sm" type="submit" value="回复">
+									</td>
+								</form>
+							</tr>
+						{% endifequal %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div> <!-- col-md-8 -->
+	<div class="col-md-2"></div>
+	</div>	<!-- row -->
+{% endblock %}

@@ -5,11 +5,13 @@ else
     xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 
 function post_like(post_id) {
-    var like_num_node = document.getElementById("post_like_num"+post_id);
-    var like_num = like_num_node.innerText;
-    like_num = parseInt(like_num);
-    like_num++;
-    like_num_node.innerText = like_num;
+    $(".post_like_num"+post_id).each(function() {
+        like_num = $(this).text();
+        like_num = parseInt(like_num);
+        like_num++;
+        $(this).text(like_num);
+    });
+
     var post_like_node = document.getElementById("post_like"+post_id);
     post_like_node.innerHTML = "<span class='glyphicon glyphicon-heart'></span>";
     var post_like_node = document.getElementById("post_like"+post_id+"in");
@@ -22,5 +24,11 @@ function post_like(post_id) {
 function comment(floor_num) {
     var textarea = document.getElementById("comment_textarea");
     textarea.value = "@" + floor_num + "楼 ";
+}
+
+// $(".reply_table").hide();
+
+function reply(chat_id) {
+    $("#reply"+chat_id).toggle();
 }
 

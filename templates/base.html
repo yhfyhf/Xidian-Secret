@@ -46,14 +46,24 @@
 	        		{% block login %}
 	       			{% endblock %}
 	        	</li>
+	        	
 	      	</ul>
 
 
 	       	
-
-
-	       	{% block notice %}
-	       	{% endblock %}
+	      	<ul class="nav navbar-nav navbar-right">
+	      		<li>
+		       		{% block notice %}
+		       		{% endblock %}
+	       		</li>
+	       		<li>
+	        		 {% block chat %}
+	       			 {% endblock %}
+	        	</li>
+	       	</ul>
+	       	<div class="nav navbar-nav">
+               
+	       	</div>
 	       	
 	    </nav>
 	  </div>
