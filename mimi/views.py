@@ -12,7 +12,7 @@ from django.core.context_processors import csrf
 from django.core import serializers
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from mimi.models import Post, Comment, Notice
+from mimi.models import Post, Comment, Notice, Chat
 
 from get_grade import get_grade
 
@@ -58,6 +58,7 @@ def index(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     for post in posts:
+        post.post_uid = get_grade(post.post_uid)
         for comment in post.comment_set.all():
             comment.comment_uid = get_grade(comment.comment_uid)
     ctx.update(csrf(request))
@@ -107,7 +108,9 @@ def apost(request):   #  just POST
         return redirect('/')
     if request.user.is_authenticated():
         submitted_content = request.POST['content']
-        Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0).save()
+        post = Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0)
+        post.save()
+        Notice(post_id=post.id, user_id=request.user.id).save()
         return redirect('/')
     else:
         return redirect('/')
@@ -117,7 +120,8 @@ def comment(request, post_id): # just POST
         return redirect('/')
     submitted_content = request.POST['comment']
     Comment(post_id=post_id, comment_uid=request.user.username,
-            comment_content=submitted_content, comment_like_num=0).save()
+            comment_content=submitted_content, comment_like_num=0,
+            comment_grade=get_grade(request.user.username)).save()
     # set all users who have followed this comment to unread
     Notice.objects.filter(post_id=post_id).exclude(user_id=request.user.id).update(is_read=False)
     # let user follow the post if hasn't followed
@@ -221,17 +225,39 @@ def alogout(request):
         logout(request)
     return redirect('/')  # logout successfully
 
-def Search(request):
+def search(request):
     if 'q' in request.GET:
         term = request.GET['q']
+        terms = term.split()
         posts = Post.objects.all()
         results = []
-        for post in posts:
-            if term in get_grade(post.post_uid):
-                post.post_uid = get_grade(post.post_uid)
-                results.append(post)
+        for term in terms:
+            for post in posts:
+                if term in get_grade(post.post_uid):
+                    post.post_uid = get_grade(post.post_uid)
+                    results.append(post)
         ctx = {}
         ctx.update(csrf(request))
         ctx['posts'] = results
         ctx['user'] = request.user
         return render(request, 'search.html', ctx)
+
+#def chat(request, from_id, to_id):
+#    if not request.user.is_authenticated():
+#        return redirect('/login/')
+#    if request.method == "POST":
+#        chat_content = request.POST['chat']
+#        Chat(from_id=from_id, to_id=to_id, chat_content=chat_content).save()
+#    elif request.method == "GET":
+#        if not from_id == request.user.id:
+#            return HttpResponse("")
+#    else:
+#        raise Http404()
+
+
+
+
+
+
+
+

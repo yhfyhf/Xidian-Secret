@@ -33,7 +33,7 @@
 
 {% block search %}
     <form class="search nav navbar-nav" method="get" action="/search/">
-        <input type="text" class="input-sm search-query" value="" name="q">
+        <input type="text" class="input-sm search-query" placeholder='搜索发帖人, 如"电院 大三"...' name="q">
         <input type="submit" class="btn btn-search" value="搜索">
     </form>
 {% endblock %}
@@ -45,10 +45,10 @@
         </li>
     {% else %}
         <li>
-            <a href="/login/">登录</a>
+            <a href="/login/"><span class="brand">登录</span></a>
         </li>
         <li>
-            <a href="/register/">注册</a>
+            <a href="/register/"><span class="brand">注册</span></a>
         </li>
     {% endif %}
 {% endblock %}
@@ -97,7 +97,7 @@
                                 <hr><hr>
                                 {% for comment in post.comments %}
                                     <span><strong>{{ forloop.counter }}楼</strong></span>
-                                    <span>{{ comment.comment_uid}}</span>
+                                    <span>{{ comment.comment_grade }}</span>
                                     <span class="comment_content">&nbsp;&nbsp;&nbsp;&nbsp;{{ comment.comment_content }}</span><br>
                                     <span class="pub-time">{{ comment.comment_date|date:"m月d日 h:m" }}</span> <hr>
                                 {% endfor %}

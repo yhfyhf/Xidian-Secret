@@ -194,7 +194,7 @@ a.post_content {
     font-size: 20px;
 }
 
-.btn-like:hover, .btn-like:visited {
+.btn-like:hover, .btn-like:visited, .btn-like:active {
     background: white;
     border-color: white;
 }
@@ -262,6 +262,7 @@ form.post_form {
 
 .input-sm {
     margin-left: 10px;
+    width: 180px;
 }
 
 @media screen and (max-width:1199px) {

@@ -1,4 +1,5 @@
 from django.conf.urls import include, patterns, url
+from feeds import LatestEntriesFeed
 
 urlpatterns = patterns('',
     url(r'^$', 'mimi.views.index'),
@@ -10,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^post/(?P<post_id>\d+)/$', 'mimi.views.show_post'),
     url(r'^comment/(?P<post_id>\d+)/$', 'mimi.views.comment'),
     url(r'^post_like/(?P<post_id>\d+)/$', 'mimi.views.post_like'),
-    url(r'^search/$','mimi.views.Search'),
+    url(r'^search/$','mimi.views.search'),
+    url(r'^feeds/$', LatestEntriesFeed()),
 )

@@ -11,27 +11,6 @@
 <!-- /head -->
 
 <!-- body -->
-{% block notice %}
-{% if user.is_authenticated %}
-    <div class="nav navbar-nav navbar-right">
-        <div class="btn-group">
-            <button type="button" class="btn btn-sm dropdown-toggle btn-notice" data-toggle="dropdown">
-                新消息 {{ notice_num }}
-                <span class="caret"></span>
-            </button>
-            {% if notices %}
-                <ul class="dropdown-menu" role="menu">
-                    {% for notice in notices %}
-                        <li>
-                            <a href="/post/{{ notice.post_id }}/">{{notice.post_content}} ......</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    </div>
-{% endif %}
-{% endblock %}
 
 {% block search %}
     <form class="search nav navbar-nav" method="get" action="/search/">
