@@ -26,9 +26,10 @@ function comment(floor_num) {
     textarea.value = "@" + floor_num + "楼 ";
 }
 
-// $(".reply_table").hide();
-
 function reply(chat_id) {
     $("#reply"+chat_id).toggle();
 }
 
+function sixin(chat_id) {
+    $("#sixin"+chat_id).toggle();
+}

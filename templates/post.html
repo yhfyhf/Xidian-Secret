@@ -31,42 +31,89 @@
 		        	{{ post.post_content }}
 		        </div>
 				<hr>
-					<div class="others">
-						<span>{{ comments_num }}条评论 &nbsp;&nbsp;&nbsp;
-							{{ post.post_date|date:"m月d日 h:m" }}</span>
-					</div>
+				<div class="others">
+					<span>{{ comments_num }}条评论 &nbsp;&nbsp;&nbsp;
+						{{ post.post_date|date:"m月d日 H:i" }}</span>
+				</div>
+				<div class="sixin">
+					{% if user.is_authenticated %}
+						{% ifnotequal post.post_user_id user.id %}
+							<button class="btn btn-default btn-sm" onclick="sixin({{ post.id }})">私信给作者</button>
+						{% endifnotequal %}
+					{% endif %}
+				</div>
+				
+				<form action="/chat/{{ user.id }}/{{ post.post_user_id }}/" method="post" accept-charset="utf-8" id="sixin{{ post.id }}" hidden="hidden" class="sixin_input">
+					{% csrf_token %}
+					<td></td>
+					<td class="reply_input">
+						<input type="text" class="form-control" name="chat" rows="2" required />
+					</td>
+					<td class="reply_input_btn">
+						<input class="form-control btn-sm" type="submit" value="发私信">
+						<br><br>
+					</td>
+				</form>
+				
+
+
 		        <div class="comments">
 		     		{% if comments %}
 			        	<table class="table table-hover">
 			        		<tbody>
 			        			{% for comment in comments %}
-				            		<tr id="comment{{ forloop.counter }}" onclick="comment({{ forloop.counter }}); document.body.scrollTop +=1000 ;">
-				            			<td><div class="floor_count"><strong>{{ forloop.counter }}楼</strong></div></td>
+				            		<tr id="comment{{ forloop.counter }}" onclick="comment({{ forloop.counter }});">
+				            			<td>
+				            				<div class="floor_count">
+				            					<strong>{{ forloop.counter }}楼</strong><br>
+				            					{% if user.is_authenticated %}
+					            					{% ifnotequal comment.comment_user_id user.id %}
+					            						<button class="btn btn-default btn-xs" onclick="reply({{ comment.id }})">发私信</button>
+					            					{% endifnotequal %}
+					            				{% endif %}
+				            				</div>
+				            			</td>
 				            			<td><span class="comment_content">{{ comment.comment_content }}</span></td>
-				            			<td><span class="comment_uid">{{ comment.comment_uid }}</span>
-				            			<br><span class="comment_date">{{ comment.comment_date|date:"m月d日 h:m"}}</span></td>
+				            			<td>
+				            				<span class="comment_uid">{{ comment.comment_uid }}</span><br>
+				            				<span class="comment_date">{{ comment.comment_date|date:"m月d日 H:i"}}</span>
+				            			</td>
 				            		</tr>
+				            		<tr class="active" id="reply{{ comment.id }}" hidden="hidden">
+										<form action="/chat/{{ user.id }}/{{ comment.comment_user_id }}/" method="post" accept-charset="utf-8">
+											{% csrf_token %}
+											<td></td>
+											<td class="reply_input">
+												<input type="text" class="form-control" name="chat" rows="2" required />
+											</td>
+											<td class="reply_input_btn">
+												<input class="form-control btn-sm" type="submit" value="发私信">
+											</td>
+										</form>
+									</tr>
 				            	{% endfor %}
 				            </tbody>
 			        	</table>
 		        	{% else %}
 		        		暂无评论。
 		        	{% endif %}
-		        </div>
-		    {% if user.is_authenticated %}
-		        <form action="/comment/{{ post.id }}/" method="post" accept-charset="utf-8">
-		        	{% csrf_token %}
-		        	<tr>
-		        		<textarea class="form-control" name="comment" rows="2" id="comment_textarea" required/></textarea>
-		        	</tr>
-		        	<tr>	
-		        		<br>
-		        		<input type="submit" class="btn btn-primary" value="评论" autofocus="autofocus" />
-		        	</tr>
-		        </form>
-		    {% else %}
-		    	<p style="text-align: center;">请先登录以评论。</p>
-		    {% endif %}
+			        <br>
+				    {% if user.is_authenticated %}
+				        <form action="/comment/{{ post.id }}/" method="post" accept-charset="utf-8">
+				        	{% csrf_token %}
+				        	<tr>
+				        		<textarea class="form-control" name="comment" rows="2" id="comment_textarea" required /></textarea>
+				        	</tr>
+				        	<tr>	
+				        		<br>
+				        		<input type="submit" class="btn btn-primary" value="评论" autofocus="autofocus" />
+				        	</tr>
+				        </form>
+				    {% else %}
+				    	<p style="text-align: center;">请先登录以评论。</p>
+				    {% endif %}
+			    </div>
+			</div>
 		</div>
 		<div class="col-md-2"></div>
 	</div>

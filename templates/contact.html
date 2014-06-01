@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block cssfiles %}
+	<style>
+		div.panel {
+			width: 60%;
+			margin: auto;
+			margin-top: 50px;
+		}
+
+		div.panel-body {
+			font-size: 20px;
+		}
+
+        @media screen and (max-width:480px) {
+        	div.panel {
+        		width: 95%;
+        	}
+        }
+
+	</style>
+{% endblock %}
+
+{% block mainbody %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			{% load staticfiles %}
+			<h3>关于作者 <img src="{% static "image/avatar.png" %}" alt="avatar"></h3>
+		</div>
+	  	<div class="panel-body">
+	  		Hi :) <br> <br>
+  			<pre>
+{
+    "关于我": [
+        {
+            "姓名": "Ying Haofei",
+            "年级": "电院大三",
+            "技术栈 ": [
+                {
+                    "Python": [
+                        {
+                            "Framework": "Django", "Flask", "web.py",
+                            "Library": "Beautiful Soup", "Requests", "pyoauth2"
+                        }
+                    ],
+                    "database": ["MySQL", "SQLite", "MongoDB", "Memcached"],
+                    "others": ["JavaScript", "C++", "LaTeX"]
+                }
+            ]
+            "语言": "普通话, 吴语, 粤语",
+            "现居": "西安",
+            "兴趣": ["异性", "各种体育"],
+            "找到我": "xdhfying 在 鸡妹儿 dot com",
+            "另外": "有小型项目外包欢迎发邮件给我"
+        }
+    ]
+}
+  			</pre>
+	  	</div>
+	</div>
+{% endblock %}

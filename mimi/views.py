@@ -45,12 +45,12 @@ def index(request):
     if request.user.is_authenticated():
         notices = Notice.objects.filter(user_id=request.user.id, is_read=False)
         for notice in notices:
-            notice.post_content = Post.objects.get(id=notice.post_id).post_content[:10]
+            notice.post_content = Post.objects.get(id=notice.post_id).post_content[:12]
     else:
         notices = None
     notice_num = len(notices) if notices else 0
     # paginator
-    paginator = Paginator(posts, 20) # show 30 posts per page
+    paginator = Paginator(posts, 20) # show 20 posts per page
     page = request.GET.get('page')
     try:
         posts = paginator.page(page)
@@ -77,6 +77,7 @@ def index(request):
 def show_post(request, post_id):
     if request.method == "GET":
         post = Post.objects.get(id=post_id)
+        post.post_user_id = User.objects.get(username=post.post_uid).id
         if request.user.is_authenticated():
             try:
                 # find the notice belongs to the logging user and set it read
@@ -87,6 +88,7 @@ def show_post(request, post_id):
                 pass
         comments = post.comment_set.all()
         for comment in comments:
+            comment.comment_user_id = User.objects.get(username=comment.comment_uid).id
             comment.comment_uid = get_grade(comment.comment_uid)
         ctx = {}
         ctx.update(csrf(request))
@@ -210,6 +212,7 @@ def register(request):
         if not request.POST.get('uid'):
             error = '请输入学号!'
         uid = request.POST.get('uid')
+        print uid
         if get_grade(uid) == "error":
             error = "请输入正确的学号!"
         users = User.objects.all()
@@ -223,7 +226,7 @@ def register(request):
         user = User.objects.create_user(uid, None, password)
         user.is_active = True
         user.save()  # register successfully
-        return redirect('/')
+        return redirect('/login/')
 
     ctx.update(csrf(request))
     ctx['errors'] = errors
@@ -238,13 +241,17 @@ def search(request):
     if 'q' in request.GET:
         term = request.GET['q']
         terms = term.split()
-        posts = Post.objects.all()
+        posts = Post.objects.all().order_by("-id")
         results = []
+        i = 0
         for term in terms:
             for post in posts:
                 if term in get_grade(post.post_uid):
                     post.post_uid = get_grade(post.post_uid)
                     results.append(post)
+                    i = i + 1
+                    if i >= 30:
+                        break
         ctx = {}
         ctx.update(csrf(request))
         ctx['posts'] = results
@@ -278,8 +285,14 @@ def show_chat(request):
     else:
         raise Http404()
 
+def policy(request):
+    return render(request, 'policy.html')
 
+def contact(request):
+    return render(request, 'contact.html')
 
+def about(request):
+    return render(request, 'about.html')
 
 
 

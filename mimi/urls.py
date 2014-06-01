@@ -15,4 +15,7 @@ urlpatterns = patterns('',
     url(r'^feeds/$', LatestEntriesFeed()),
     url(r'^chat/$', 'mimi.views.show_chat'),
     url(r'^chat/(?P<from_id>\d+)/(?P<to_id>\d+)/$', 'mimi.views.chat'),
+    url(r'^policy/$', 'mimi.views.policy'),
+    url(r'^contact/$', 'mimi.views.contact'),
+    url(r'^about/$', 'mimi.views.about'),
 )

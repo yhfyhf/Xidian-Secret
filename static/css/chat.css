@@ -1,3 +1,7 @@
+div.row {
+	margin-top: 5%;
+}
+
 tr {
 	width: 80%;
 	margin-left: 10%;
@@ -6,6 +10,14 @@ tr {
 .chat_user {
 	width: 15%;
 	min-width: 100px;
+}
+
+.chat_user .user_id {
+	font-weight: bold;
+}
+
+.chat_user .chat_date {
+	font-size: 10px;
 }
 
 .char_content {

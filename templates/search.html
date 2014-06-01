@@ -4,9 +4,36 @@
 {% block cssfiles %}
     {% load staticfiles %}    
     <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    <style>
+        .results {
+            width: 80%;
+            margin: auto;
+            margin-top: 30px;
+        }
+
+        td.post_content {
+            width: 75%;
+        }
+        td.post_uid {
+            width: 15%;
+        }
+        td.post_uid {
+            width: 10%;
+        }
+
+        tr {
+            cursor: pointer;
+        }
+        @media screen and (max-width:480px) {
+            .results {
+                width: 100%;
+            }
+        }
+    </style>
 {% endblock %}
 {% block jsfiles%}
     <script src="{% static "js/ajax.js" %}"></script>
+    
 {% endblock %}
 <!-- /head -->
 
@@ -35,14 +62,24 @@
 {% endblock %}
 
 {% block mainbody %}
-    <table class="table">
-        {% for post in posts %}
-            <tr>
-                <td>{{ post.post_content }}</td>
-                <td>{{ post.post_uid }}</td>
-            </tr>
-        {% endfor %}
-    </table>    
+    <div class="results">
+        <table class="table">
+            <tbody>
+                {% for post in posts %}
+                    <tr onclick="location.href='/post/{{ post.id }}/'; ">
+                        <td class="post_content">{{ post.post_content }}</td>
+                        <td class="post_uid">{{ post.post_uid }}</td>
+                        <td class="post_date">{{ post.post_date|date:"m月d日 H:i" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $("tbody tr:nth-child(even)").addClass("danger");
+        $("tbody tr:nth-child(odd)").addClass("warning");
+    </script>
 {% endblock %}
 
 

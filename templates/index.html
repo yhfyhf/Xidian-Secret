@@ -44,9 +44,16 @@
 
 {% block search %}
     <form class="search nav navbar-nav" method="get" action="/search/">
-        <input type="text" class="input-sm search-query" placeholder='搜索发帖人, 如"电院 大三"...' name="q">
-        <input type="submit" class="btn btn-search" value="搜索">
+        <input type="text" class="input-sm search-query" placeholder='搜索发帖人, 如"电院 大三"...' name="q"  required />
+        <input type="submit" class="btn btn-search" value="搜索" />
     </form>
+    <li>
+        {% if user.is_authenticated %}
+            <a href="#post"><span class="brand">发秘密</span></a>
+        {% else %}
+            <a href="/login/"><span class="brand">发秘密</span></a>
+        {% endif %}
+    </li>
 {% endblock %}
 
 {% block login %}
@@ -86,7 +93,7 @@
                         </a>
                         <button class="btn btn-default btn-sm btn-comment" data-toggle="modal" data-target="#showpost{{ post.id }}">评论 <span>{{ post.comments_num }}</span></button>
                         <div class="post_date">
-                            <span class="pub-time">{{ post.post_date|date:"m月d日 h:m" }}</span>
+                            <span class="pub-time">{{ post.post_date|date:"m月d日 H:i" }}</span>
                         </div>
 
 
@@ -150,14 +157,16 @@
         </span>
     </div>
 
+    <div id="post">
     {% if user.is_authenticated %}
         <form action="/post/" method="post" accept-charset="utf-8" class="post_form">
             {% csrf_token %}
-            <textarea class="form-control" name="content" rows="3" id="comment_textarea" requiredi></textarea>
+            <textarea class="form-control" name="content" rows="3" id="comment_textarea" required /></textarea>
             <br>
             <input id="submit" type="submit" class="btn btn-primary" value="发秘密" />
         </form>
     {% endif %}
+    </div>
 
     
 

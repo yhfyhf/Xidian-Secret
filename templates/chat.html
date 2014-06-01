@@ -9,6 +9,7 @@
 
 {% block mainbody %}
 	<div class="row">
+		{% if chats %}
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
 			<table class="table table-hover">
@@ -16,16 +17,22 @@
 					{% for chat in chats %}
 						{% ifequal chat.from_id user.id %}  <!-- 你发送给别人 -->
 							<tr class="warning">  
-								<td class="chat_user">你发送给{{ chat.to_id }}:</td>
+								<td class="chat_user">
+									<span class="user_id">你 → ID: {{ chat.to_id }}</span><br>
+									<span class="chat_date">{{ chat.chat_date|date:"m月d日 H:i" }}</span>
+								</td>
 								<td class="char_content">{{ chat.chat_content }}</td>
 								<td class="reply_column"></td>
 							</tr>
 						{% else %}  <!-- 别人发送给你 -->
 							<tr class="danger" id="chat{{ chat.from_id }}">
-								<td class="chat_user">{{ chat.from_id }} 发送给你</td>
+								<td class="chat_user">
+									<span class="user_id">ID: {{ chat.from_id }} → 你</span><br>
+									<span class="chat_date">{{ chat.chat_date|date:"m月d日 H:i" }}</span>
+								</td>
 								<td class="char_content">{{ chat.chat_content }}</td>
 								<td class="reply_column">
-		                            <button class="btn btn-default btn-sm" onclick="reply({{ chat.id }})">回复</button>
+		                            <button class="btn btn-default btn-sm" onclick="reply({{ chat.id }})">回复私信</button>
 								</td>
 							</tr>
 							<tr class="active" id="reply{{chat.id}}" hidden="hidden">
@@ -45,6 +52,9 @@
 				</tbody>
 			</table>
 		</div> <!-- col-md-8 -->
-	<div class="col-md-2"></div>
+		<div class="col-md-2"></div>
+		{% else %}
+			<div class="alert alert-danger"><p>暂无私信。</p></div>
+		{% endif %}
 	</div>	<!-- row -->
 {% endblock %}

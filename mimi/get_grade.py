@@ -33,9 +33,9 @@ def get_grade(uid):
     elif school_num == "08":
         grade = "人文院"
     elif school_num == "09":
-        grade = "外国语学院"
+        grade = "外国语院"
     elif school_num == "13":
-        grade = "软件学院"
+        grade = "软院"
     elif school_num == "14":
         grade = "微电院"
     elif school_num == "15":
@@ -70,6 +70,7 @@ if __name__ == "__main__":
     print get_grade("120332322")
     print get_grade("0219001")
     print get_grade("02139001")
+    print get_grade("13089999999")
 
 
 
