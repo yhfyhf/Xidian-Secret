@@ -16,12 +16,15 @@ from mimi.models import Post, Comment, Notice, Chat
 
 from get_grade import get_grade
 
+import memcache
+mc = memcache.Client(['127.0.0.1:11211'], debug=0)
 
 #class PostForm(forms.Form):
 #    content = forms.CharField(widget=forms.Textarea)
 #
 #class CommentForm(forms.Form):
 #    comment =  forms.CharField(widget=forms.Textarea)
+
 
 def verify(request):
     """ verify the request method is "POST" and a user is logged """
@@ -35,6 +38,11 @@ def verify(request):
 
 
 def index(request):
+    #if request.META.has_key('HTTP_X_FORWARDED_FOR'):
+    #    ip =  request.META['HTTP_USER_AGENT:']
+    #else:
+    #    ip = request.META['REMOTE_ADDR']
+    print type(request.META['HTTP_USER_AGENT'])
     ctx = {}
     posts = Post.objects.all().order_by("-post_date")
     for post in posts:
@@ -115,6 +123,11 @@ def apost(request):   #  just POST
         return redirect('/')
     if request.user.is_authenticated():
         submitted_content = request.POST['content']
+        s_contents = submitted_content.split()
+        for s_content in s_contents:
+            if len(s_content) > 15:
+                s_contents = s_content[0:12]
+        submitted_content = " ".join(s_contents)
         if not submitted_content:
             return redirect('/')
         post = Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0)
@@ -145,6 +158,17 @@ def comment(request, post_id): # just POST
 def post_like(request, post_id):
     if not request.user.is_authenticated():
         return HttpResponse("Login first.")
+    id = str(request.user.id)
+    if not mc.get(id):
+        mc.set(id, 1)
+    else:
+        mc.incr(id)
+        if mc.get(id) >= 5:
+            user = User.objects.get(id=int(id)).\
+                update(is_active=False).save()
+            logout(request)
+            mc.delete(id)
+            return HttpResponse("KO!")
     posts = Post.objects.filter(id=int(post_id))
     for post in posts:
         post.post_like_num += 1
