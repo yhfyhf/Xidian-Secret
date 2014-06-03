@@ -6,6 +6,7 @@
 	font-size: 26px;
 	margin-left: 5%;
 	margin-bottom: 40px;
+    overflow: hidden;
 }
 
 div.comments {
@@ -43,6 +44,7 @@ div.comments {
 
 .comment_content {
 	text-align: left;
+    overflow: hidden;
 }
 
 .comment_date {

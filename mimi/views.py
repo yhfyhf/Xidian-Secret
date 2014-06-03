@@ -17,7 +17,7 @@ from mimi.models import Post, Comment, Notice, Chat
 from get_grade import get_grade
 
 import memcache
-mc = memcache.Client(['127.0.0.1:11211'], debug=0)
+mc = memcache.Client(['127.0.0.1:11211'])
 
 #class PostForm(forms.Form):
 #    content = forms.CharField(widget=forms.Textarea)
@@ -123,13 +123,13 @@ def apost(request):   #  just POST
         return redirect('/')
     if request.user.is_authenticated():
         submitted_content = request.POST['content']
-        s_contents = submitted_content.split()
-        for s_content in s_contents:
-            if len(s_content) > 15:
-                s_contents = s_content[0:12]
-        submitted_content = " ".join(s_contents)
-        if not submitted_content:
-            return redirect('/')
+        #s_contents = submitted_content.split()
+        #for s_content in s_contents:
+        #    if len(s_content) > 15:
+        #        s_contents = s_content[0:12]
+        #submitted_content = " ".join(s_contents)
+        #if not submitted_content:
+        #    return redirect('/')
         post = Post(post_uid=request.user.username, post_content=submitted_content, post_like_num=0)
         post.save()
         Notice(post_id=post.id, user_id=request.user.id).save()
@@ -160,7 +160,7 @@ def post_like(request, post_id):
         return HttpResponse("Login first.")
     id = str(request.user.id)
     if not mc.get(id):
-        mc.set(id, 1)
+        mc.set(id, 1, 120)
     else:
         mc.incr(id)
         if mc.get(id) >= 5:
