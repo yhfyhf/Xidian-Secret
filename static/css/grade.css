@@ -1,0 +1,54 @@
+body {
+    background-color: #f5f5f5;
+    font-family: 'Exo 2', sans-serif;
+}
+
+h1 {
+    font-size: 3em;
+    font-family: sans-serif;
+}
+
+div.chart {
+    height: 300px;
+    width: 50%;
+    float: left;
+}
+
+div.content {
+    width: 80%;
+    margin: auto;
+    margin-top: 20%;
+}
+
+div.content span {
+    color: indianred;
+}
+
+#gpa1, #gpa2 {
+    color: deepskyblue;
+}
+
+table {
+    width: 40%;
+    margin: auto;
+    margin-top: 50px;
+    text-align: right;
+}
+
+footer p{
+	text-align: center;
+}
+
+@media screen and (max-width:480px) {
+    div.chart {
+        width: 80%;
+        margin-left: 0;
+    }
+
+    table {
+        width: 80%;
+    }
+    footer {
+        float: right;
+    }
+}

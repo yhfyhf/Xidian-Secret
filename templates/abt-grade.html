@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>关于成绩</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .panel {
+            width: 60%;
+            margin: auto;
+            margin-top: 50px;
+        }
+        table {
+            margin-left: 5%;
+        }
+        footer {
+            text-align: center;
+        }
+        @media screen and (max-width:480px) {
+            .panel {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>关于</h3>
+		</div>
+	  	<div class="panel-body">
+            <h4>关于隐私</h4>
+            您的学号和密码将不会被任何形式地保存和记录，它只会被用于模拟登录教务处，获得您的成绩。当然，您的成绩也不会被记录和保存。
+            获得和显示成绩的过程全部由服务器和您的浏览器完成，开发者不会，也没有权利窃取您的隐私，请您放心使用。
+            <br/><br/>
+            <h4>关于GPA算法</h4>
+            所采用的两种GPA算法均为西电教务处公布，具体算法如下：
+            <div class="table" id="table1">
+            <h5>算法1</h5>
+                <table>
+                    <tr>
+                        <td><b>百分制成绩</b></td>
+                        <td><b>绩点</b></td>
+                    </tr>
+                    <tr>
+                        <td>90-100</td>
+                        <td>4.0</td>
+                    </tr>
+                    <tr>
+                        <td>85-89</td>
+                        <td>3.7</td>
+                    </tr>
+                    <tr>
+                        <td>82-84</td>
+                        <td>3.3</td>
+                    </tr>
+                    <tr>
+                        <td>78-81</td>
+                        <td>3.0</td>
+                    </tr>
+                    <tr>
+                        <td>75-77</td>
+                        <td>2.7</td>
+                    </tr>
+                    <tr>
+                        <td>72-74</td>
+                        <td>2.3</td>
+                    </tr>
+                    <tr>
+                        <td>69-71</td>
+                        <td>2.0</td>
+                    </tr>
+                    <tr>
+                        <td>66-68</td>
+                        <td>1.7</td>
+                    </tr>
+                    <tr>
+                        <td>63-65</td>
+                        <td>1.5</td>
+                    </tr>
+                    <tr>
+                        <td>60-62</td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr>
+                        <td>0-59</td>
+                        <td>0.0</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table" id="table2">
+                <h5>算法2</h5>
+                <table>
+                    <tr>
+                        <td><b>百分制成绩</b></td>
+                        <td><b>绩点</b></td>
+                    </tr>
+                    <tr>
+                        <td>90-100</td>
+                        <td>4.0</td>
+                    </tr>
+                    <tr>
+                        <td>85-89</td>
+                        <td>3.7</td>
+                    </tr>
+                    <tr>
+                        <td>80-84</td>
+                        <td>3.3</td>
+                    </tr>
+                    <tr>
+                        <td>75-79</td>
+                        <td>3.0</td>
+                    </tr>
+                    <tr>
+                        <td>72-74</td>
+                        <td>2.7</td>
+                    </tr>
+                    <tr>
+                        <td>69-71</td>
+                        <td>2.3</td>
+                    </tr>
+                    <tr>
+                        <td>66-68</td>
+                        <td>2.0</td>
+                    </tr>
+                    <tr>
+                        <td>63-65</td>
+                        <td>1.5</td>
+                    </tr>
+                    <tr>
+                        <td>60-62</td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr>
+                        <td>60-62</td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr>
+                        <td>0-59</td>
+                        <td>0.0</td>
+                    </tr>
+                </table>
+            </div>
+            <br/><br/>
+            <h4>关于考查课</h4>
+            <table>
+                <tr>
+                    <td><b>成绩等级</b></td>
+                    <td><b>百分制成绩</b></td>
+                </tr>
+                <tr>
+                    <td>优秀</td>
+                    <td>95</td>
+                </tr>
+                <tr>
+                    <td>通过</td>
+                    <td>80</td>
+                </tr>
+                <tr>
+                    <td>不通过</td>
+                    <td>0</td>
+                </tr>
+            </table>
+            <br/><br/>
+            <h4>关于免修</h4>
+            “免修“课程计85分，绩点3.7。
+	  	</div>
+	</div>
+    <br/><br/>
+</body>
+<footer>
+    <p>Copyright © 2014 Ying Haofei. All rights reserved. <a href="/grade/"> 查看成绩 </a></p>
+</footer>
+
+</html>

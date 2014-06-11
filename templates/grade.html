@@ -1,0 +1,170 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+        <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static "css/grade.css" %}">
+        {% if data %}
+            <title>{{ name }}的成绩</title>
+            <script>
+                String.prototype.replaceAll = function (s1, s2) {
+                    return this.replace(new RegExp(s1,"gm"),s2);
+                }
+                var data = {{ data|safe }};
+                var dataStr = JSON.stringify(data).replaceAll("必修", "Required").
+                        replaceAll("限选", "Limited").replaceAll("任选", "Elective").
+                        replaceAll("人文", "").replaceAll("学校", "");
+                var myCourse = JSON.parse(dataStr);
+                // alert(dataStr);
+            </script>
+            <script src="http://canvasjs.qiniudn.com/canvasjs.min.js"></script>
+            <script src="http://canvasjs.qiniudn.com/all.js"></script>
+            <script type="text/javascript">
+                function startChartGradeInterval(course){
+                  eval(divideByGrade(course));
+                  var chart1 = new CanvasJS.Chart("gradeIntervalChart", {
+                    backgroundColor: "#f5f5f5",
+                    title:{
+                          text: "成绩分布图",
+                          fontWeight: "bolder",
+                          fontColor: "#008B8B",
+                          fontFamily: "tahoma",
+                          fontSize: 30,
+                          backgroundColor: "#FFFFE0",
+                          borderThickness: 1,
+                          cornerRadius: 5,
+                          fontWeight: "bold"
+                        },
+                        axisX: {
+                          labelAngle: -30,
+                          title: "成绩区间",
+                          titleFontFamily: "comic sans ms"
+                        },
+                        axisY: {
+                          title: "数目",
+                          titleFontFamily: "comic sans ms",
+                        },
+                        data:[{
+                          type: "column",
+                          dataPoints: gradeIntervalDataPoints
+                        }]
+                    });
+                  chart1.render();
+                }
+
+                function startChartTime(course){
+                  eval(divideByTime(course));
+                  var chart2 = new CanvasJS.Chart("timeChart", {
+                    backgroundColor: "#f5f5f5",
+                    theme: "theme2",
+                    title:{
+                          text: "每学期的平均分",
+                          fontWeight: "bolder",
+                          fontColor: "#008B8B",
+                          fontFamily: "tahoma",
+                          fontSize: 30,
+                          backgroundColor: "#FFFFE0",
+                          borderThickness: 1,
+                          cornerRadius: 5,
+                          fontWeight: "bold"
+                        },
+                        axisX: {
+                          title: "学期",
+                          titleFontFamily: "comic sans ms"
+                        },
+                        axisY: {
+                          title: "平均分",
+                          titleFontFamily: "comic sans ms",
+                          minimum: 0,
+                          maximum: 100
+                        },
+                        data:[{
+                          type: "bar",
+                          dataPoints: timeDataPoints
+                        }//,{
+                          //type: "line",
+                          //dataPoints: timeDataPoints}
+                        ]
+                    });
+                  chart2.render();
+                }
+
+                function startChartTimeCredit(course){
+                  eval(divideByTimeCredit(course));
+                  var chart3 = new CanvasJS.Chart("timeChartCredit", {
+                    backgroundColor: "#f5f5f5",
+                    title:{
+                          text: "每学期的学分数",
+                          fontWeight: "bolder",
+                          fontColor: "#008B8B",
+                          fontFamily: "tahoma",
+                          fontSize: 30,
+                          backgroundColor: "#FFFFE0",
+                          borderThickness: 1,
+                          cornerRadius: 5,
+                          fontWeight: "bold"
+                    },
+                    data:[{
+                      type: "pie",
+                      dataPoints: timeCreditDataPoints,
+                      showInLegend: true
+                    }]
+                   });
+                  chart3.render();
+                }
+              </script>
+        {% else %}
+            <title>登录</title>
+        {% endif %}
+
+    </head>
+    {% if data %}
+        <body onload="startChartGradeInterval(myCourse); startChartTime(myCourse); startChartTimeCredit(myCourse);">
+            <div>
+                <h1 align="center">{{ name }}的成绩</h1>
+            </div>
+            <div class="chart" id="gradeIntervalChart"></div>
+            <div class="chart" id="timeChart"></div>
+            <div class="chart" id="timeChartCredit"></div>
+            <div class="chart" id="show">
+                <div class="content">
+                    您好，{{ name }}同学！ <br/>
+                    您当前共完成<span><script>document.write(credits_num)</script></span>学分，平均分为<span><script>document.write(String(score_avg).substring(0, 6));</script></span>分； <br/>
+                    其中， 必修课程共 <span><script>document.write(required_credits_num)</script></span>学分，平均分为<span><script>document.write(String(required_avg).substring(0, 6))</script></span>分，<br/>
+                    限选课程共<span><script>document.write(limited_credits_num)</script></span>学分，平均分为<span><script>document.write(String(limited_avg).substring(0, 6))</script></span>分，<br/>
+                    任选课程共<span><script>document.write(elective_credits_num)</script></span>学分，平均分为<span><script>document.write(String(elective_avg).substring(0, 6))</script></span>分。<br/>
+                    按照<span id="gpa1"> <a href="/abt-grade#table1">第一种GPA算法</a></span>，您的GPA是 <span><script>document.write(String(gpa1).substring(0,5))</script></span>， <br/>
+                    按照<span id="gpa2"> <a href="/abt-grade#table2">第二种GPA算法</a></span>，您的GPA是 <span><script>document.write(String(gpa2).substring(0,5))</script></span>。
+                </div>
+            </div>
+            <br/><br/>
+        </body>
+    {% else %}
+        <body>
+            <table class="login">
+                <form action="/grade/" method="post">
+                    {% csrf_token %}
+                    <tr>
+                        <td>学号</td>
+                        <td><input type="text" name="uid" class="form-control" required /></td>
+                    </tr>
+                    <tr>
+                        <td>密码</td>
+                        <td><input type="password" name="password" class="form-control" required /></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="登录" class="btn btn-default"/></td>
+                    </tr>
+                </form>
+            </table>
+            <br/><br/>
+        </body>
+    {% endif %}
+
+    <footer>
+        <p>Copyright © 2014 Ying Haofei. All rights reserved. <a href="/abt-grade/"> 关于成绩 </a></p>
+	</footer>
+</html>
